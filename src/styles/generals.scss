@@ -1,0 +1,167 @@
+@use './_partials/variables' as *;
+@import './_partials/mixins';
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto Condensed', sans-serif
+}
+
+#sidebar{
+    width: 15%;
+    height: 100%;
+    background-color: $primary_color;
+    color: $third_color;
+    border-right: 1px solid #fff;
+    .top-sidebar{
+        
+        border-bottom: 1px solid $third_color;
+        padding: 10px 20px;
+        h2{
+            font-size: 20px;
+        }
+
+        img{
+            width: 50px
+        }
+    }
+
+    .bottom-sidebar{
+        margin-top: 20px;
+
+        li{
+
+            a{
+                color: $third_color;
+                text-decoration: none;
+                display: block;
+                padding: 10px 10px;
+               
+                &.active{
+                    background-color: $secondary_color;
+                    color: $third_color;
+                }
+            }
+        }
+    }
+}
+
+header{
+    background-color: $primary_color;
+
+    .content-header{
+        background-color: lightblue;
+    }
+}
+
+main{
+    width: 85%;
+    height: 100%;
+}
+
+#dropdown-user{
+    font-size: 18px;
+    padding: 5px 10px;
+
+    &:after{
+        border: none;
+        display:initial;
+        margin: 0;
+        vertical-align: initial;
+    }
+}
+
+.btn-transparent{
+    background-color: transparent;
+}
+
+.border-white{
+    border: 1px solid white;
+}
+
+.btn-circle{
+    border-radius: 50%;
+}
+
+.full-height{
+    height: 100vh;   
+}
+
+.btn-main{
+    @include background_blue;
+    
+    &:hover{
+        color: $third_color;
+        background-color: $primary_hover;
+    }
+
+    &.active{
+        background-color: $primary_color;
+        color: $third_color
+    }
+}
+
+.background-main{
+    @include background_blue;
+}
+
+table{
+    td, th{
+        border: 1px solid lightgray;
+        border-collapse: collapse;
+        text-align: center
+    }
+
+    .head-cell{
+        @include head_cell;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .head-inner-cell{
+        @include head_cell;
+    }
+    
+
+    .p-0{
+        
+        .inner-cell{
+            display:flex; 
+            justify-content: center;
+            align-items:center; 
+            flex-direction:column
+        }
+    }
+}
+
+
+    .inner-table{
+        th{
+            border: 0;
+        }
+        td{
+            padding: 10px 0;
+        }
+    }
+
+
+.height-200{
+    
+    height:200px;
+}
+
+
+
+
+
+
+
