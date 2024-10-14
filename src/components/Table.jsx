@@ -13,9 +13,9 @@ const Table = ({ data, months, type }) => {
   const [yearDelete, setYearDelete] = useState({});
   const [customerName, setCustomerName] = useState("");
 
-  function setClassResults(type, income, exit) {
+  function setClassResults(type, value) {
     if (type === 0) {
-      if (income - exit > 0) {
+      if (value > 0) {
         return `text-success`;
       } else {
         return `text-danger`;
@@ -45,33 +45,21 @@ const Table = ({ data, months, type }) => {
           {data.map((year, index) => {
             return (
               <tr key={`year-${index}`}>
-                <td>{year.anno}</td>
-                {year.mesi.map((mese, i) => {
-                  return (
-                    <td
-                      key={`month-value-${i}`}
-                      className={setClassResults(
-                        type,
-                        mese.entrate,
-                        mese.uscite
-                      )}
-                    >
-                      {type === 0
-                        ? mese.entrate - mese.uscite
-                        : type === 1
-                        ? mese.entrate
-                        : mese.uscite}
-                      €
-                    </td>
-                  );
+                <td>{year.year}</td>
+                {year.months.map((month, i) => {
+                  if (month != null) {
+                    return (
+                      <td
+                        key={`month-value-${i}`}
+                        className={setClassResults(type, month)}
+                      >
+                        {month}€
+                      </td>
+                    );
+                  } else {
+                    return <td> - </td>;
+                  }
                 })}
-                {Array.from({
-                  length: months.length - year.mesi.length,
-                }).map((item, index) => (
-                  <td key={`month-null-${index}`}>
-                    <span>-</span>
-                  </td>
-                ))}
                 <td>
                   {type === 0 ? (
                     <>
@@ -85,7 +73,7 @@ const Table = ({ data, months, type }) => {
                         className="btn btn-sm btn-square btn-danger ms-2"
                         onClick={() => {
                           setShow(true);
-                          setYearDelete(year.anno);
+                          setYearDelete(year.year);
                         }}
                       >
                         <FaRegTrashAlt />
@@ -93,8 +81,9 @@ const Table = ({ data, months, type }) => {
                     </>
                   ) : type === 1 ? (
                     <NavLink
-                      to="/incomes/detail-income"
+                      to={`/incomes/${year.year_id}/detail-income`}
                       className="btn btn-sm btn-main"
+                      state={{ year: year.year }}
                     >
                       <FaEye />
                     </NavLink>

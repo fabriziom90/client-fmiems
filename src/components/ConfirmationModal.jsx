@@ -1,20 +1,20 @@
-import { React, useEffect, useState } from "react";
+import { React } from "react";
 import Modal from "react-bootstrap/Modal";
 
 function modalBodyText(infos) {
-  if (infos.customer !== "") {
+  if (!infos.delete) {
     return (
       <p>
         <strong>Importo: </strong>
-        {infos.data.amount}€ <br />
+        {infos.data.value}€ <br />
         <strong>Avvenuto in data: </strong>
-        {infos.data.data} <br />
+        {infos.data.month} <br />
         <strong>Da parte di: </strong>
-        {infos.customer}
+        {infos.data.customer}
       </p>
     );
   } else {
-    return "Cancellando l'anno verranno cancellate anche tutte le entrate e le uscite registrate in esso. Vuoi continuare?";
+    return infos.modalText;
   }
 }
 
@@ -26,7 +26,9 @@ const ConfirmationModal = (props) => {
       </Modal.Header>
       <Modal.Body>{modalBodyText(props)}</Modal.Body>
       <Modal.Footer>
-        <button className="btn btn-sm btn-danger">Cancella</button>
+        <button className="btn btn-sm btn-danger" onClick={props.confirmDelete}>
+          Cancella
+        </button>
         <button className="btn btn-sm btn-secondary" onClick={props.isClosed}>
           Chiudi
         </button>

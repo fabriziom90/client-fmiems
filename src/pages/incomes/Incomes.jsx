@@ -1,9 +1,24 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Table from "../../components/Table";
 
+import axios from "axios";
+
 const Incomes = () => {
+  const [incomes, setIncomes] = useState([]);
+
+  useEffect(() => {
+    const getIncomes = async () => {
+      axios.get("http://localhost:4000/incomes").then((resp) => {
+        setIncomes(resp.data.incomes);
+      });
+    };
+
+    getIncomes();
+  }, []);
+
   const months = [
     "Gen",
     "Feb",
@@ -17,23 +32,6 @@ const Incomes = () => {
     "Ott",
     "Nov",
     "Dic",
-  ];
-
-  const datiContabili = [
-    {
-      anno: 2024,
-      mesi: [
-        { mese: 1, entrate: 500 },
-        { mese: 2, entrate: 800 },
-        { mese: 3, entrate: 1200 },
-        { mese: 4, entrate: 900 },
-        { mese: 5, entrate: 700 },
-        { mese: 6, entrate: 1000 },
-        { mese: 7, entrate: 1100 },
-        { mese: 8, entrate: 850 },
-        { mese: 9, entrate: 950 },
-      ],
-    },
   ];
 
   return (
@@ -51,7 +49,7 @@ const Incomes = () => {
           </NavLink>
         </div>
         <div className="col-12">
-          <Table data={datiContabili} months={months} type={1} />
+          <Table data={incomes} months={months} type={1} />
         </div>
       </div>
     </div>

@@ -2,27 +2,9 @@ import { NavLink } from "react-router-dom";
 import Card from "../components/Card";
 import Table from "../components/Table";
 
-import { useState } from "react";
+import axios from "axios";
 
-const datiContabili = [
-  {
-    anno: 2024,
-    mesi: [
-      { mese: 1, entrate: 500, uscite: 700 },
-      { mese: 2, entrate: 800, uscite: 350 },
-      { mese: 3, entrate: 1200, uscite: 600 },
-      { mese: 4, entrate: 900, uscite: 450 },
-      { mese: 5, entrate: 700, uscite: 300 },
-      { mese: 6, entrate: 1000, uscite: 550 },
-      { mese: 7, entrate: 1100, uscite: 500 },
-      { mese: 8, entrate: 850, uscite: 425 },
-      { mese: 9, entrate: 950, uscite: 475 },
-      { mese: 10, entrate: 1250, uscite: 625 },
-      { mese: 11, entrate: 1050, uscite: 525 },
-      { mese: 12, entrate: 925, uscite: 462 },
-    ],
-  },
-];
+import { useState, useEffect } from "react";
 
 const months = [
   "Gen",
@@ -40,13 +22,25 @@ const months = [
 ];
 
 function Homepage() {
+  const [values, setValues] = useState([]);
+
+  useEffect(() => {
+    const getValues = async () => {
+      axios.get("http://localhost:4000/summary/").then((resp) => {
+        setValues(resp.data.values);
+      });
+    };
+
+    getValues();
+  }, []);
+
   return (
     <>
       <div className="content mt-3">
         <div className="container">
           <div className="row gy-3">
             <div className="col-12">
-              <NavLink className="rounded-0 btn btn-sm btn-main">
+              <NavLink to="/add-year" className="rounded-0 btn btn-sm btn-main">
                 Aggiungi anno
               </NavLink>
               <NavLink
@@ -64,7 +58,7 @@ function Homepage() {
             </div>
             <div className="col-12">
               <h2>Riepilogo</h2>
-              <Table data={datiContabili} months={months} type={0} />
+              <Table data={values} months={months} type={0} />
             </div>
             <div className="col-4">
               <Card>

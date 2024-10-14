@@ -7,8 +7,9 @@ import axios from "axios";
 
 import Form from "../../components/Form";
 
-function AddIncome() {
+function AddExit() {
   const navigate = useNavigate();
+
   const [values, setValues] = useState("");
   const [years, setYears] = useState([]);
   const [months, setMonths] = useState([]);
@@ -20,7 +21,7 @@ function AddIncome() {
 
   const submitForm = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:4000/incomes/store", values).then((res) => {
+    axios.post("http://localhost:4000/exits/store", values).then((res) => {
       const { result, message } = res.data;
       if (result) {
         toast.success(message, {
@@ -35,7 +36,7 @@ function AddIncome() {
         });
 
         setTimeout(function () {
-          navigate("/incomes/");
+          navigate("/exits/");
         }, 3400);
       } else {
         toast.error(message, {
@@ -76,10 +77,10 @@ function AddIncome() {
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 mt-3">
-          <h2>Aggiungi Entrata</h2>
+          <h2>Aggiungi Uscita</h2>
         </div>
         <div className="col-12">
-          <form className="background-main p-4" onSubmit={submitForm}>
+          <form className="background-main p-4">
             <Form
               values={values}
               years={years}
@@ -102,4 +103,4 @@ function AddIncome() {
   );
 }
 
-export default AddIncome;
+export default AddExit;

@@ -1,34 +1,48 @@
 import React from "react";
 
-const Form = () => {
+const Form = (props) => {
+  const { handleChange, values, years, months } = props;
+
   return (
     <div className="row gy-3">
       <div className="col-3">
         <label className="control-label">Anno</label>
-        <select className="form-select">
+        <select
+          className="form-select"
+          onChange={handleChange}
+          values={values.year}
+          id="year"
+          name="year"
+        >
           <option value="">Seleziona anno</option>
-          <option value="1">2024</option>
-          <option value="2">2023</option>
-          <option value="3">2022</option>
+          {years.map((year) => {
+            return (
+              <option key={year.id} value={year.id}>
+                {year.year}
+              </option>
+            );
+          })}
         </select>
       </div>
       <div className="col-3">
         <label htmlFor="" className="control-label">
           Mese
         </label>
-        <select name="" id="" className="form-select">
-          <option value="1">Gennaio</option>
-          <option value="2">Febbraio</option>
-          <option value="3">Marzo</option>
-          <option value="4">Aprile</option>
-          <option value="5">Maggio</option>
-          <option value="6">Giugno</option>
-          <option value="7">Luglio</option>
-          <option value="8">Agosto</option>
-          <option value="9">Settembre</option>
-          <option value="10">Ottobre</option>
-          <option value="11">Novembre</option>
-          <option value="12">Dicembre</option>
+        <select
+          name="month"
+          id="month"
+          className="form-select"
+          onChange={handleChange}
+          values={values.month}
+        >
+          <option value="">Seleziona mese</option>
+          {months.map((month) => {
+            return (
+              <option key={month.id} value={month.id}>
+                {month.month_name}
+              </option>
+            );
+          })}
         </select>
       </div>
       <div className="col-3">
@@ -41,18 +55,10 @@ const Form = () => {
           min="0"
           className="form-control"
           placeholder="Importo"
-        />
-      </div>
-      <div className="col-3">
-        <label htmlFor="" className="control-label">
-          Data
-        </label>
-        <input
-          type="date"
-          name=""
-          id=""
-          className="form-control"
-          placeholder="In data..."
+          onChange={handleChange}
+          values={values.amount}
+          name="amount"
+          id="amount"
         />
       </div>
       <div className="col-12">
@@ -60,14 +66,13 @@ const Form = () => {
           Fonte
         </label>
         <textarea
-          name=""
-          id=""
+          name="customer"
+          id="customer"
           className="form-control"
           placeholder="Fonte"
+          onChange={handleChange}
+          values={values.customer}
         ></textarea>
-      </div>
-      <div className="col-12">
-        <button className="btn btn-sm btn-success rounded-0">Salva</button>
       </div>
     </div>
   );
