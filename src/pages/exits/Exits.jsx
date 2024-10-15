@@ -49,7 +49,7 @@ const Exits = () => {
           </NavLink>
         </div>
         <div className="col-12">
-          <Table data={exits} months={months} type={1} />
+          <Table data={exits} months={months} type={2} />
         </div>
       </div>
     </div>

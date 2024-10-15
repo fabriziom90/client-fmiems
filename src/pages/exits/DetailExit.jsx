@@ -8,59 +8,59 @@ import { NavLink } from "react-router-dom";
 
 import axios from "axios";
 
-const DetailIncome = () => {
-  let [thisIncome, setThisIncome] = useState(null);
-  const [incomes, setIncomes] = useState([]);
-  const [incomeDelete, setIncomeDelete] = useState({});
+const DetailExit = () => {
+  let [thisExit, setThisExit] = useState(null);
+  const [exits, setExits] = useState([]);
+  const [exitDelete, setExitDelete] = useState({});
   const [show, setShow] = useState(false);
   const [customerName, setCustomerName] = useState("");
-  let [incomeValue, setIncomeValue] = useState("");
-  let [incomeCustomer, setIncomeCustomer] = useState("");
+  let [exitValue, setExitValue] = useState("");
+  let [exitCustomer, setExitCustomer] = useState("");
 
   let location = useLocation();
 
-  function getYearIncomes() {
+  function getYearExits() {
     axios
-      .get("http://localhost:4000/incomes/get_distinct_incomes", {
+      .get("http://localhost:4000/exits/get_distinct_exits", {
         params: {
           year: location.state.year,
         },
       })
       .then((resp) => {
-        setIncomes(resp.data.incomes);
+        setExits(resp.data.exits);
       });
   }
 
   useEffect(() => {
-    const getIncomes = async () => {
-      getYearIncomes();
+    const getExits = async () => {
+      getYearExits();
     };
 
-    getIncomes();
+    getExits();
   }, []);
 
-  const setObject = (income) => {
-    thisIncome != null ? setThisIncome(null) : setThisIncome(income);
-    if (thisIncome != null) {
-      updateIncome();
+  const setObject = (exit) => {
+    thisExit != null ? setThisExit(null) : setThisExit(exit);
+    if (thisExit != null) {
+      updateExit();
     }
   };
 
   const changeValue = (e) => {
-    setIncomeValue(e.target.value);
+    setExitValue(e.target.value);
   };
 
   const changeCustomer = (e) => {
-    setIncomeCustomer(e.target.value);
+    setExitCustomer(e.target.value);
   };
 
-  const deleteIncome = () => {
+  const deleteExit = () => {
     let params = {
-      income_id: incomeDelete.income_id,
+      exit_id: exitDelete.exit_id,
     };
 
     axios
-      .delete("http://localhost:4000/incomes/delete", { data: params })
+      .delete("http://localhost:4000/exits/delete", { data: params })
       .then((resp) => {
         const { result, message } = resp.data;
         if (result) {
@@ -88,29 +88,26 @@ const DetailIncome = () => {
             theme: "colored",
           });
         }
-        getYearIncomes();
+        getYearExits();
       });
   };
 
-  function updateIncome() {
+  function updateExit() {
     let data = {
-      income_id: thisIncome.income_id,
-      value: thisIncome.value,
-      customer: thisIncome.customer,
+      exit_id: thisExit.exit_id,
+      value: thisExit.value,
+      customer: thisExit.customer,
     };
-    if (incomeValue !== "") {
-      data.value = incomeValue;
+    if (exitValue !== "") {
+      data.value = exitValue;
     }
 
-    if (incomeCustomer != "") {
-      data.customer = incomeCustomer;
+    if (exitCustomer != "") {
+      data.customer = exitCustomer;
     }
 
-    if (
-      thisIncome.value != data.value ||
-      thisIncome.customer != data.customer
-    ) {
-      axios.put("http://localhost:4000/incomes/update", data).then((resp) => {
+    if (thisExit.value != data.value || thisExit.customer != data.customer) {
+      axios.put("http://localhost:4000/exits/update", data).then((resp) => {
         const { result, message } = resp.data;
         if (result) {
           toast.success(message, {
@@ -135,7 +132,7 @@ const DetailIncome = () => {
             theme: "colored",
           });
         }
-        getYearIncomes();
+        getYearExits();
       });
     }
   }
@@ -146,16 +143,16 @@ const DetailIncome = () => {
       <div className="row mt-3">
         <div className="col-12">
           <div className="d-flex justify-content-between align-items-center my-3">
-            <h2>Dettaglio entrate anno</h2>
+            <h2>Dettaglio uscite anno</h2>
             <div>
-              <NavLink to="/incomes" className="btn btn-sm btn-main border-0">
-                Entrate
+              <NavLink to="/exits" className="btn btn-sm btn-main border-0">
+                Uscite
               </NavLink>
               <NavLink
-                to="/exits/add-income"
+                to="/exits/add-exits"
                 className="rounded-0 btn btn-sm btn-danger ms-2"
               >
-                Aggiungi entrata
+                Aggiungi uscita
               </NavLink>
             </div>
           </div>
@@ -163,7 +160,7 @@ const DetailIncome = () => {
         <div className="col-12">
           <table className="table table-striped" id="detail">
             <tbody>
-              {incomes.map((item) => {
+              {exits.map((item) => {
                 return (
                   <>
                     {item.months.map((month, index) => {
@@ -176,30 +173,29 @@ const DetailIncome = () => {
                               <div className="p-2">{month.month}</div>
                             </td>
                             <td className="p-0">
-                              {month.incomes.map((income) => {
-                                total += income.value;
-                                fullTotal += income.value;
+                              {month.exits.map((exit) => {
+                                total += exit.value;
+                                fullTotal += exit.value;
                                 return (
                                   <>
                                     <div className="p-2">
                                       <div className="d-flex justify-content-between align-items-center">
                                         <div>
-                                          {thisIncome != null &&
-                                          thisIncome.income_id ===
-                                            income.income_id ? (
+                                          {thisExit != null &&
+                                          thisExit.exit_id === exit.exit_id ? (
                                             <>
                                               <div className="d-flex">
                                                 <input
                                                   type="text"
                                                   className="form-control form-control-sm me-1"
-                                                  defaultValue={income.value}
+                                                  defaultValue={exit.value}
                                                   onChange={changeValue}
                                                   placeholder="Importo"
                                                 />
                                                 <input
                                                   type="text"
                                                   className="form-control form-control-sm"
-                                                  defaultValue={income.customer}
+                                                  defaultValue={exit.customer}
                                                   onChange={changeCustomer}
                                                   placeholder="Cliente"
                                                 />
@@ -207,8 +203,8 @@ const DetailIncome = () => {
                                             </>
                                           ) : (
                                             <>
-                                              <strong>{income.customer}</strong>{" "}
-                                              - {income.value}€
+                                              <strong>{exit.customer}</strong> -{" "}
+                                              {exit.value}€
                                             </>
                                           )}
                                         </div>
@@ -216,7 +212,7 @@ const DetailIncome = () => {
                                           <button
                                             className="btn btn-sm btn-warning me-1"
                                             onClick={() => {
-                                              setObject(income);
+                                              setObject(exit);
                                             }}
                                           >
                                             <FiEdit />
@@ -225,8 +221,8 @@ const DetailIncome = () => {
                                             className="btn btn-sm btn-square btn-danger me-2"
                                             onClick={() => {
                                               setShow(true);
-                                              setIncomeDelete(income);
-                                              setCustomerName(income.customer);
+                                              setExitDelete(exit);
+                                              setCustomerName(exit.customer);
                                             }}
                                           >
                                             <FaRegTrashAlt />
@@ -247,7 +243,7 @@ const DetailIncome = () => {
                       <td className="p-0 head-cell">Totale</td>
                       <td
                         className={`p-0 full-total text-white ${
-                          fullTotal < 0 ? "bg-danger" : "bg-success"
+                          fullTotal > 0 ? "bg-danger" : "bg-success"
                         }`}
                       >
                         <div>{fullTotal}€</div>
@@ -264,13 +260,13 @@ const DetailIncome = () => {
               setShow(false);
             }}
             delete={true}
-            data={incomeDelete}
+            data={exitDelete}
             customer={customerName}
-            modalTitle={"Sei sicuro di voler cancellare questa entrata?"}
+            modalTitle={"Sei sicuro di voler cancellare questa uscita?"}
             modalText={
-              "Una volta cancellata questa entrata non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
+              "Una volta cancellata questa uscita non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
             }
-            confirmDelete={deleteIncome}
+            confirmDelete={deleteExit}
           />
         </div>
         <ToastContainer />
@@ -279,4 +275,4 @@ const DetailIncome = () => {
   );
 };
 
-export default DetailIncome;
+export default DetailExit;

@@ -13,7 +13,7 @@ import AddIncome from "./pages/incomes/AddIncome";
 import DetailIncome from "./pages/incomes/DetailIncome";
 import Exits from "./pages/exits/Exits";
 import AddExit from "./pages/exits/AddExit";
-import DetailExits from "./pages/exits/DetailExits";
+import DetailExit from "./pages/exits/DetailExit";
 import AddYear from "./pages/years/AddYear";
 import NotFound from "./pages/NotFound";
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter(
       <Route path="/incomes/add-income" element={<AddIncome />} />
       <Route path="/incomes/:yearId/detail-income" element={<DetailIncome />} />
       <Route path="/exits/add-exits" element={<AddExit />} />
-      <Route path="/exits/detail-exits" element={<DetailExits />} />
+      <Route path="/exits/:yearId/detail-exit" element={<DetailExit />} />
       <Route path="/add-year" element={<AddYear />}></Route>
       <Route path="*" element={<NotFound />} />
     </Route>

@@ -98,6 +98,9 @@ main{
 
 .btn-main{
     @include background_blue;
+    padding: 5px 10px;
+    border: 0px;
+    border-radius: 0px;
     
     &:hover{
         color: $third_color;

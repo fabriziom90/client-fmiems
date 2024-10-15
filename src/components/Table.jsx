@@ -44,7 +44,7 @@ const Table = ({ data, months, type }) => {
         <tbody>
           {data.map((year, index) => {
             return (
-              <tr key={`year-${index}`}>
+              <tr key={`year-${year.year_id}`}>
                 <td>{year.year}</td>
                 {year.months.map((month, i) => {
                   if (month != null) {
@@ -89,8 +89,9 @@ const Table = ({ data, months, type }) => {
                     </NavLink>
                   ) : (
                     <NavLink
-                      to="/exits/detail-exits"
+                      to={`/exits/${year.year_id}/detail-exit`}
                       className="btn btn-sm btn-main"
+                      state={{ year: year.year }}
                     >
                       <FaEye />
                     </NavLink>
