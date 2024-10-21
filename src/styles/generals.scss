@@ -43,16 +43,18 @@ body{
                 padding: 10px 0px 10px 20px;
             }
 
+            &.active{
+                background-color: $secondary_color;
+                color: $third_color;
+            }
+
             a{
                 color: $third_color;
                 text-decoration: none;
                 display: block;
                 padding: 10px 10px;
                
-                &.active{
-                    background-color: $secondary_color;
-                    color: $third_color;
-                }
+                
             }
         }
     }

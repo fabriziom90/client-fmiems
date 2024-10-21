@@ -4,15 +4,16 @@ import { BsGraphUpArrow } from "react-icons/bs";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { VscGraphLine } from "react-icons/vsc";
 
+import { useLocation } from "react-router-dom";
+
 import { NavLink } from "react-router-dom";
 
-const Sidebar = ({
-  title = "Default title",
-  subtitle = "Default subtitle",
-}) => {
-  const activeClass = ({ isActive }) => {
-    isActive ? "active" : "";
-  };
+const Sidebar = () => {
+  let location = useLocation();
+
+  // console.log(this.context.router.route.location.pathname);
+  // console.log(isActive);
+  // let className = isActive ? "link active" : "link";
 
   return (
     <div id="sidebar">
@@ -21,13 +22,17 @@ const Sidebar = ({
           to="/"
           className="d-flex align-items-center text-decoration-none text-white"
         >
-          <img src={logo} alt={title} title={subtitle} />
+          <img src={logo} alt="FM-IEMS" />
           <h2 className="ms-3">FM-IEMS</h2>
         </NavLink>
       </div>
       <div className="bottom-sidebar">
         <ul className="list-unstyled">
-          <li className={`link ${activeClass}`}>
+          <li
+            className={
+              location.pathname.includes("/incomes") ? `link active` : "link"
+            }
+          >
             <div className="d-flex">
               <div className="p-icon">
                 <BsGraphUpArrow />
@@ -35,7 +40,11 @@ const Sidebar = ({
               <NavLink to="/incomes">Entrate</NavLink>
             </div>
           </li>
-          <li className={`link ${activeClass}`}>
+          <li
+            className={
+              location.pathname.includes("/exits") ? `link active` : "link"
+            }
+          >
             <div className="d-flex">
               <div className="p-icon">
                 <BsGraphDownArrow />
@@ -43,7 +52,7 @@ const Sidebar = ({
               <NavLink to="/exits">Uscite</NavLink>
             </div>
           </li>
-          <li className={`link ${activeClass}`}>
+          <li className="link">
             <div className="d-flex">
               <div className="p-icon">
                 <VscGraphLine />
