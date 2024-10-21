@@ -3,16 +3,21 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Table from "../../components/Table";
+import Loader from "../../components/Loader";
 
 import axios from "axios";
 
 const Incomes = () => {
   const [incomes, setIncomes] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const getIncomes = async () => {
       axios.get("http://localhost:4000/incomes").then((resp) => {
         setIncomes(resp.data.incomes);
+        setTimeout(() => {
+          setLoaded(true);
+        }, 1500);
       });
     };
 
@@ -49,7 +54,11 @@ const Incomes = () => {
           </NavLink>
         </div>
         <div className="col-12">
-          <Table data={incomes} months={months} type={1} />
+          {!loaded ? (
+            <Loader loaded={loaded} />
+          ) : (
+            <Table data={incomes} months={months} type={1} />
+          )}
         </div>
       </div>
     </div>

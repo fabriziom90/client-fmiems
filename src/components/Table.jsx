@@ -64,8 +64,9 @@ const Table = ({ data, months, type }) => {
                   {type === 0 ? (
                     <>
                       <NavLink
-                        to="/detail-year"
+                        to={`/years/${year.year_id}/detail-year`}
                         className="btn btn-sm btn-main"
+                        state={{ year: year.year }}
                       >
                         <FaEye />
                       </NavLink>

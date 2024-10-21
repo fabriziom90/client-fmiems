@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
-import Card from "../components/Card";
+
 import Table from "../components/Table";
+import Loader from "../components/Loader";
 
 import axios from "axios";
 
@@ -23,11 +24,15 @@ const months = [
 
 function Homepage() {
   const [values, setValues] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const getValues = async () => {
       axios.get("http://localhost:4000/summary/").then((resp) => {
         setValues(resp.data.values);
+        setTimeout(() => {
+          setLoaded(true);
+        }, 1800);
       });
     };
 
@@ -58,58 +63,11 @@ function Homepage() {
             </div>
             <div className="col-12">
               <h2>Riepilogo</h2>
-              <Table data={values} months={months} type={0} />
-            </div>
-            <div className="col-4">
-              <Card>
-                <div className="card-img-top">
-                  <img
-                    src="https://placehold.co/300"
-                    alt=""
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="card-body">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-                  itaque neque culpa sunt eaque explicabo iure nemo nesciunt
-                  incidunt qui accusantium tempore et voluptates, amet quisquam
-                  eos dolore animi repellendus!
-                </div>
-              </Card>
-            </div>
-            <div className="col-4">
-              <Card bg="bg-success">
-                <div className="card-img-top">
-                  <img
-                    src="https://placehold.co/300"
-                    alt=""
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="card-body">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-                  itaque neque culpa sunt eaque explicabo iure nemo nesciunt
-                  incidunt qui accusantium tempore et voluptates, amet quisquam
-                  eos dolore animi repellendus!
-                </div>
-              </Card>
-            </div>
-            <div className="col-4">
-              <Card bg="bg-primary">
-                <div className="card-img-top">
-                  <img
-                    src="https://placehold.co/300"
-                    alt=""
-                    className="img-fluid"
-                  />
-                </div>
-                <div className="card-body">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque
-                  itaque neque culpa sunt eaque explicabo iure nemo nesciunt
-                  incidunt qui accusantium tempore et voluptates, amet quisquam
-                  eos dolore animi repellendus!
-                </div>
-              </Card>
+              {!loaded ? (
+                <Loader loaded={loaded} />
+              ) : (
+                <Table data={values} months={months} type={0} />
+              )}
             </div>
           </div>
         </div>

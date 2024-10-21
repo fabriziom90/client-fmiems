@@ -15,6 +15,7 @@ import Exits from "./pages/exits/Exits";
 import AddExit from "./pages/exits/AddExit";
 import DetailExit from "./pages/exits/DetailExit";
 import AddYear from "./pages/years/AddYear";
+import DetailYear from "./pages/years/DetailYear";
 import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/exits/add-exits" element={<AddExit />} />
       <Route path="/exits/:yearId/detail-exit" element={<DetailExit />} />
       <Route path="/add-year" element={<AddYear />}></Route>
+      <Route path="/years/:yearId/detail-year" element={<DetailYear />}></Route>
       <Route path="*" element={<NotFound />} />
     </Route>
   )

@@ -1,5 +1,9 @@
 import logo from "../assets/images/mylogo.png";
 
+import { BsGraphUpArrow } from "react-icons/bs";
+import { BsGraphDownArrow } from "react-icons/bs";
+import { VscGraphLine } from "react-icons/vsc";
+
 import { NavLink } from "react-router-dom";
 
 const Sidebar = ({
@@ -24,13 +28,28 @@ const Sidebar = ({
       <div className="bottom-sidebar">
         <ul className="list-unstyled">
           <li className={`link ${activeClass}`}>
-            <NavLink to="/incomes">Entrate</NavLink>
+            <div className="d-flex">
+              <div className="p-icon">
+                <BsGraphUpArrow />
+              </div>
+              <NavLink to="/incomes">Entrate</NavLink>
+            </div>
           </li>
           <li className={`link ${activeClass}`}>
-            <NavLink to="/exits">Uscite</NavLink>
+            <div className="d-flex">
+              <div className="p-icon">
+                <BsGraphDownArrow />
+              </div>
+              <NavLink to="/exits">Uscite</NavLink>
+            </div>
           </li>
           <li className={`link ${activeClass}`}>
-            <NavLink to="/page">Resoconto</NavLink>
+            <div className="d-flex">
+              <div className="p-icon">
+                <VscGraphLine />
+              </div>
+              <NavLink to="/page">Resoconto</NavLink>
+            </div>
           </li>
         </ul>
       </div>
