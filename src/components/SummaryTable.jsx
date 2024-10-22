@@ -114,7 +114,7 @@ const SummaryTable = ({ year }) => {
                         : "head-cell bg-danger"
                     }
                   >
-                    {Math.round(fullIncomes - fullExits, 2)}
+                    {Math.round(fullIncomes - fullExits, 2)}€
                   </td>
                 </tr>
               </>

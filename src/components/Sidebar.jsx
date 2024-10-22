@@ -52,12 +52,16 @@ const Sidebar = () => {
               <NavLink to="/exits">Uscite</NavLink>
             </div>
           </li>
-          <li className="link">
+          <li
+            className={
+              location.pathname.includes("/taxes") ? `link active` : "link"
+            }
+          >
             <div className="d-flex">
               <div className="p-icon">
                 <VscGraphLine />
               </div>
-              <NavLink to="/page">Resoconto</NavLink>
+              <NavLink to="/taxes">Tasse</NavLink>
             </div>
           </li>
         </ul>
