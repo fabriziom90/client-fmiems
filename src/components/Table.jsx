@@ -61,6 +61,7 @@ const Table = ({ data, months, type }) => {
                   }
                 })}
                 <td>
+                  {console.log(type)}
                   {type === 0 ? (
                     <>
                       <NavLink
@@ -88,9 +89,17 @@ const Table = ({ data, months, type }) => {
                     >
                       <FaEye />
                     </NavLink>
-                  ) : (
+                  ) : type === 2 ? (
                     <NavLink
                       to={`/exits/${year.year_id}/detail-exit`}
+                      className="btn btn-sm btn-main"
+                      state={{ year: year.year }}
+                    >
+                      <FaEye />
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to={`/taxes/${year.year_id}/detail-tax`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >

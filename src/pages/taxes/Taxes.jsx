@@ -53,7 +53,7 @@ const Taxes = () => {
             {!loaded ? (
               <Loader loaded={loaded} />
             ) : (
-              <Table data={incomes} months={months} type={1} />
+              <Table data={incomes} months={months} type={3} />
             )}
           </div>
         </div>

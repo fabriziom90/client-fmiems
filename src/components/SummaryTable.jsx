@@ -21,7 +21,7 @@ const SummaryTable = ({ year }) => {
   }
 
   function sumValues(array) {
-    return array.reduce((partialSum, a) => partialSum + a.value, 0);
+    return array.reduce((partialSum, a) => partialSum + a.value, 0).toFixed(2);
   }
 
   let fullIncomes = 0;
