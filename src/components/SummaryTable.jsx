@@ -21,7 +21,7 @@ const SummaryTable = ({ year }) => {
   }
 
   function sumValues(array) {
-    return Math.round(array.reduce((partialSum, a) => partialSum + a.value, 0));
+    return array.reduce((partialSum, a) => partialSum + a.value, 0);
   }
 
   let fullIncomes = 0;
@@ -91,7 +91,7 @@ const SummaryTable = ({ year }) => {
                                   : "text-success"
                               }
                             >
-                              {Math.round(rowIncomes - rowExits, 2)}€
+                              {(rowIncomes - rowExits).toFixed(2)}€
                             </span>
                           </div>
                         </td>
@@ -114,7 +114,7 @@ const SummaryTable = ({ year }) => {
                         : "head-cell bg-danger"
                     }
                   >
-                    {Math.round(fullIncomes - fullExits, 2)}€
+                    {(fullIncomes - fullExits).toFixed(2)}€
                   </td>
                 </tr>
               </>
