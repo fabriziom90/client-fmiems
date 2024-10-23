@@ -11,10 +11,6 @@ import { NavLink } from "react-router-dom";
 const Sidebar = () => {
   let location = useLocation();
 
-  // console.log(this.context.router.route.location.pathname);
-  // console.log(isActive);
-  // let className = isActive ? "link active" : "link";
-
   return (
     <div id="sidebar">
       <div className="top-sidebar px-2">

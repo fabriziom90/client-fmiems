@@ -61,7 +61,6 @@ const Table = ({ data, months, type }) => {
                   }
                 })}
                 <td>
-                  {console.log(type)}
                   {type === 0 ? (
                     <>
                       <NavLink
