@@ -1,4 +1,7 @@
+import logo from "../../assets/images/mylogo.png";
 import React from "react";
+
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
   return (
