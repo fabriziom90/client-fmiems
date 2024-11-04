@@ -33,8 +33,8 @@ const Register = () => {
 
     axios
       .post("http://localhost:4000/users/register", data)
-      .then((res, data) => {
-        const { result, message, auth, token } = res.data;
+      .then((resp, data) => {
+        const { result, message, auth, token } = resp.data;
 
         if (result === true && auth === true) {
           localStorage.setItem("token", token);

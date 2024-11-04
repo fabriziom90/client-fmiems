@@ -14,7 +14,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginStatus, setLoginStatus] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
 
   axios.defaults.withCredentials = true;
 
@@ -26,8 +26,6 @@ const Login = () => {
     axios.get("http://localhost:4000/users/login").then((resp) => {
       if (resp.data.loggedIn) {
         setLoginStatus(true);
-        console.log(loginStatus);
-        console.log(resp.data);
       }
     });
   };
@@ -39,9 +37,11 @@ const Login = () => {
     };
 
     axios.post("http://localhost:4000/users/login", data).then((resp) => {
-      const { auth, message, token } = resp.data;
+      const { auth, message, token, name } = resp.data;
+
       if (auth) {
         localStorage.setItem("token", token);
+        localStorage.setItem("name", name);
 
         toast.success(message, {
           position: "top-right",

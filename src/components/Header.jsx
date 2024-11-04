@@ -28,7 +28,7 @@ const Header = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item>Utente</Dropdown.Item>
+                    <div class="dropdown-item">Ciao {localStorage.name}</div>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
