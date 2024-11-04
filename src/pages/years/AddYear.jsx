@@ -1,6 +1,8 @@
 import { React, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
+import { useNavigate } from "react-router-dom";
+
 import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
@@ -12,6 +14,8 @@ function getYears() {
 }
 
 const AddYear = () => {
+  const navigate = useNavigate();
+
   const [year, setYear] = useState("");
 
   const submitForm = (e) => {
@@ -31,6 +35,10 @@ const AddYear = () => {
           progress: undefined,
           theme: "colored",
         });
+
+        setTimeout(function () {
+          navigate("/years/");
+        }, 3100);
       } else {
         toast.error(message, {
           position: "top-right",

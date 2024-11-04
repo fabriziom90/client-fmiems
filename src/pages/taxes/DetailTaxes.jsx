@@ -4,10 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
-
 import Loader from "../../components/Loader";
-import SummaryTable from "../../components/SummaryTable";
 
 const DetailTaxes = () => {
   const [year, setYear] = useState([]);

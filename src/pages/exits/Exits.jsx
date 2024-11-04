@@ -43,11 +43,14 @@ const Exits = () => {
     <div className="container-fluid mt-3">
       <div className="row gy-3">
         <div className="col-12">
-          <NavLink to="/add-year" className="rounded-0 btn btn-sm btn-main">
+          <NavLink
+            to="/admin/add-year"
+            className="rounded-0 btn btn-sm btn-main"
+          >
             Aggiungi anno
           </NavLink>
           <NavLink
-            to="/exits/add-exits"
+            to="/admin/exits/add-exits"
             className="rounded-0 btn btn-sm btn-danger ms-2"
           >
             Aggiungi uscita

@@ -64,7 +64,7 @@ const Table = ({ data, months, type }) => {
                   {type === 0 ? (
                     <>
                       <NavLink
-                        to={`/years/${year.year_id}/detail-year`}
+                        to={`/admin/years/${year.year_id}/detail-year`}
                         className="btn btn-sm btn-main"
                         state={{ year: year.year }}
                       >
@@ -82,7 +82,7 @@ const Table = ({ data, months, type }) => {
                     </>
                   ) : type === 1 ? (
                     <NavLink
-                      to={`/incomes/${year.year_id}/detail-income`}
+                      to={`/admin/incomes/${year.year_id}/detail-income`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >
@@ -90,7 +90,7 @@ const Table = ({ data, months, type }) => {
                     </NavLink>
                   ) : type === 2 ? (
                     <NavLink
-                      to={`/exits/${year.year_id}/detail-exit`}
+                      to={`/admin/exits/${year.year_id}/detail-exit`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >
@@ -98,7 +98,7 @@ const Table = ({ data, months, type }) => {
                     </NavLink>
                   ) : (
                     <NavLink
-                      to={`/taxes/${year.year_id}/detail-tax`}
+                      to={`/admin/taxes/${year.year_id}/detail-tax`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >

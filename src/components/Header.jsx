@@ -2,7 +2,16 @@ import React from "react";
 import { FaUser } from "react-icons/fa";
 import Dropdown from "react-bootstrap/Dropdown";
 
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  let navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+
+    navigate("/login");
+  };
   return (
     <header>
       <div className="container-fluid">
@@ -19,13 +28,8 @@ const Header = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">
-                      Another action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">
-                      Something else
-                    </Dropdown.Item>
+                    <Dropdown.Item>Utente</Dropdown.Item>
+                    <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>

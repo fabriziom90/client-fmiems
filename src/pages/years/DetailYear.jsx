@@ -46,7 +46,7 @@ const DetailYear = () => {
               <h2 className="my-2">
                 Dettaglio anno {year.length > 0 ? year[0].year : ""}
               </h2>
-              <NavLink to="/" className="rounded-0 btn btn-sm btn-main">
+              <NavLink to="/admin" className="rounded-0 btn btn-sm btn-main">
                 Visualizza anni
               </NavLink>
             </div>

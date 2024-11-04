@@ -1,14 +1,78 @@
 import logo from "../../assets/images/mylogo.png";
 import React from "react";
 
+import axios from "axios";
+import bcrypt from "bcryptjs";
+
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 import { NavLink } from "react-router-dom";
 
+const salt = bcrypt.genSaltSync(10);
+
 const Register = () => {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm_password, setConfirmPassword] = useState("");
+
+  const register = () => {
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    const hashedConfirmPassword = bcrypt.hashSync(confirm_password, salt);
+
+    const data = {
+      name: name,
+      email: email,
+      password: hashedPassword,
+      confirmPassword: hashedConfirmPassword,
+    };
+
+    axios
+      .post("http://localhost:4000/users/register", data)
+      .then((res, data) => {
+        const { result, message, auth, token } = res.data;
+
+        if (result === true && auth === true) {
+          localStorage.setItem("token", token);
+
+          toast.success(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+          setTimeout(() => {
+            navigate("/admin/");
+          }, 3100);
+        } else {
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
+  };
+
   return (
     <div className="background-main vh-100 vw-100">
       <div className="d-flex justify-content-center align-items-center h-100">
         <div className="form-card">
-          <div class="text-end">
+          <div className="text-end">
             <NavLink to="/login">Accedi</NavLink>
           </div>
           <div className="logo justify-content-center">
@@ -29,6 +93,7 @@ const Register = () => {
                 id="name"
                 className="form-control"
                 placeholder="Nome e cognome"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="my-3">
@@ -41,6 +106,7 @@ const Register = () => {
                 id="email"
                 className="form-control"
                 placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="my-3">
@@ -48,11 +114,12 @@ const Register = () => {
                 Password
               </label>
               <input
-                type="text"
+                type="password"
                 name="password"
                 id="password"
                 className="form-control"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="my-3">
@@ -60,19 +127,23 @@ const Register = () => {
                 Conferma password
               </label>
               <input
-                type="text"
+                type="password"
                 name="confirm-password"
                 id="confirm-password"
                 className="form-control"
                 placeholder="Conferma password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
             <div className="my-4">
-              <button className="btn-main">Accedi</button>
+              <button className="btn-main" onClick={register}>
+                Accedi
+              </button>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

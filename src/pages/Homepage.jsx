@@ -45,17 +45,20 @@ function Homepage() {
         <div className="container">
           <div className="row gy-3">
             <div className="col-12">
-              <NavLink to="/add-year" className="rounded-0 btn btn-sm btn-main">
+              <NavLink
+                to="/admin/add-year"
+                className="rounded-0 btn btn-sm btn-main"
+              >
                 Aggiungi anno
               </NavLink>
               <NavLink
-                to="/incomes/add-income"
+                to="/admin/incomes/add-income"
                 className="rounded-0 btn btn-sm btn-success ms-2"
               >
                 Aggiungi entrata
               </NavLink>
               <NavLink
-                to="/exits/add-exits"
+                to="/admin/exits/add-exits"
                 className="rounded-0 btn btn-sm btn-danger ms-2"
               >
                 Aggiungi uscita
