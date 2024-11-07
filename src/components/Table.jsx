@@ -53,7 +53,7 @@ const Table = ({ data, months, type }) => {
                         key={`month-value-${i}`}
                         className={setClassResults(type, month)}
                       >
-                        {month}€
+                        {month.toFixed(2)}€
                       </td>
                     );
                   } else {

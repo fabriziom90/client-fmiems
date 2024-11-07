@@ -148,12 +148,15 @@ const DetailIncome = () => {
           <div className="d-flex justify-content-between align-items-center my-3">
             <h2>Dettaglio entrate anno</h2>
             <div>
-              <NavLink to="/incomes" className="btn btn-sm btn-main border-0">
+              <NavLink
+                to="/admin/incomes"
+                className="btn btn-sm btn-main border-0"
+              >
                 Entrate
               </NavLink>
               <NavLink
-                to="/exits/add-income"
-                className="rounded-0 btn btn-sm btn-danger ms-2"
+                to="/admin/incomes/add-income"
+                className="rounded-0 btn btn-sm btn-success ms-2"
               >
                 Aggiungi entrata
               </NavLink>
@@ -176,6 +179,7 @@ const DetailIncome = () => {
                               <div className="p-2">{month.month}</div>
                             </td>
                             <td className="p-0">
+                              <div className="head-cell height-30px"></div>
                               {month.incomes.map((income) => {
                                 total += income.value;
                                 fullTotal += income.value;
@@ -237,7 +241,9 @@ const DetailIncome = () => {
                                   </>
                                 );
                               })}
-                              <div className="head-cell mt-2">{total}€</div>
+                              <div className="head-cell mt-2 border-bottom border-dark">
+                                {total}€
+                              </div>
                             </td>
                           </tr>
                         </>

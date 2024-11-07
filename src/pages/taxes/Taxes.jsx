@@ -16,6 +16,7 @@ const Taxes = () => {
     const getIncomes = async () => {
       axios.get("http://localhost:4000/incomes/net_amount").then((resp) => {
         setIncomes(resp.data.net_amounts);
+
         setTimeout(() => {
           setLoaded(true);
         }, 1500);

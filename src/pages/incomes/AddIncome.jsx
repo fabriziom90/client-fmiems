@@ -12,9 +12,36 @@ function AddIncome() {
   const [values, setValues] = useState("");
   const [years, setYears] = useState([]);
   const [months, setMonths] = useState([]);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const getUserInfo = () => {
+    axios.get("http://localhost:4000/users/get-user-info").then((resp) => {
+      if (resp.data.result) {
+        setUser(resp.data.user);
+      } else {
+        toast.error(resp.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 3100);
+      }
+    });
+  };
 
   const handleChange = (e) => {
-    const updatedForm = { ...values, [e.target.name]: e.target.value };
+    const updatedForm = { ...values, [e.target.name]: e.target.value, user };
     setValues(updatedForm);
   };
 
@@ -35,7 +62,7 @@ function AddIncome() {
         });
 
         setTimeout(function () {
-          navigate("/incomes/");
+          navigate("/admin/incomes/");
         }, 3400);
       } else {
         toast.error(message, {

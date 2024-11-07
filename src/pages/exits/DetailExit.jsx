@@ -149,7 +149,7 @@ const DetailExit = () => {
                 Uscite
               </NavLink>
               <NavLink
-                to="/exits/add-exits"
+                to="/admin/exits/add-exits"
                 className="rounded-0 btn btn-sm btn-danger ms-2"
               >
                 Aggiungi uscita
@@ -173,6 +173,7 @@ const DetailExit = () => {
                               <div className="p-2">{month.month}</div>
                             </td>
                             <td className="p-0">
+                              <div className="head-cell height-30px"></div>
                               {month.exits.map((exit) => {
                                 total += exit.value;
                                 fullTotal += exit.value;
@@ -233,7 +234,9 @@ const DetailExit = () => {
                                   </>
                                 );
                               })}
-                              <div className="head-cell mt-2">{total}€</div>
+                              <div className="head-cell mt-2 border-bottom border-dark">
+                                {total}€
+                              </div>
                             </td>
                           </tr>
                         </>

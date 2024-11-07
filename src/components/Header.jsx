@@ -4,7 +4,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({ user }) => {
   let navigate = useNavigate();
 
   const logout = () => {
@@ -28,7 +28,7 @@ const Header = () => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <div class="dropdown-item">Ciao {localStorage.name}</div>
+                    <div className="dropdown-item">Ciao {user.user_name}</div>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

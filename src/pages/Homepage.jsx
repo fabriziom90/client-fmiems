@@ -41,8 +41,8 @@ function Homepage() {
 
   return (
     <>
-      <div className="content mt-3">
-        <div className="container">
+      <div className="content mt-3 mx-4">
+        <div className="container-full">
           <div className="row gy-3">
             <div className="col-12">
               <NavLink
