@@ -59,8 +59,10 @@ const Incomes = () => {
         <div className="col-12">
           {!loaded ? (
             <Loader loaded={loaded} />
-          ) : (
+          ) : incomes.length > 0 ? (
             <Table data={incomes} months={months} type={1} />
+          ) : (
+            "Nessuna entrata è stata inserita"
           )}
         </div>
       </div>

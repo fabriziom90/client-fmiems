@@ -37,7 +37,7 @@ const AddYear = () => {
         });
 
         setTimeout(function () {
-          navigate("/years/");
+          navigate("/admin/");
         }, 3100);
       } else {
         toast.error(message, {

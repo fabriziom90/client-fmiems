@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+
 import Loader from "../../components/Loader";
 import SummaryTable from "../../components/SummaryTable";
 
@@ -12,6 +15,7 @@ import axios from "axios";
 const DetailYear = () => {
   const [year, setYear] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   let location = useLocation();
 
@@ -37,6 +41,10 @@ const DetailYear = () => {
       });
   }
 
+  function showHideTaxes() {
+    visible ? setVisible(false) : setVisible(true);
+  }
+
   return (
     <>
       <div className="container-fluid">
@@ -51,7 +59,24 @@ const DetailYear = () => {
               </NavLink>
             </div>
           </div>
-          {!loaded ? <Loader loaded={loaded} /> : <SummaryTable year={year} />}
+          <div className="col-12 mb-3">
+            <button className="btn btn-main" onClick={showHideTaxes}>
+              {visible ? (
+                <>
+                  Tasse visibili <FaEye />
+                </>
+              ) : (
+                <>
+                  Tasse nascoste <FaEyeSlash />
+                </>
+              )}
+            </button>
+          </div>
+          {!loaded ? (
+            <Loader loaded={loaded} />
+          ) : (
+            <SummaryTable year={year} visible={visible} />
+          )}
         </div>
       </div>
     </>

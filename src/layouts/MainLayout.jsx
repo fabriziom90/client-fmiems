@@ -22,19 +22,7 @@ function MainLayout() {
       if (resp.data.result) {
         setUser(resp.data.user);
       } else {
-        toast.error(resp.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        setTimeout(() => {
-          navigate("/login");
-        }, 3100);
+        navigate("/login");
       }
     });
   };

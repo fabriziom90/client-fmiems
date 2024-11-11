@@ -262,9 +262,6 @@ const DetailExit = () => {
             isClosed={() => {
               setShow(false);
             }}
-            delete={true}
-            data={exitDelete}
-            customer={customerName}
             modalTitle={"Sei sicuro di voler cancellare questa uscita?"}
             modalText={
               "Una volta cancellata questa uscita non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"

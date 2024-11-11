@@ -13,7 +13,6 @@ const DetailIncome = () => {
   const [incomes, setIncomes] = useState([]);
   const [incomeDelete, setIncomeDelete] = useState({});
   const [show, setShow] = useState(false);
-  const [customerName, setCustomerName] = useState("");
   let [incomeValue, setIncomeValue] = useState("");
   let [incomeCustomer, setIncomeCustomer] = useState("");
 
@@ -269,9 +268,6 @@ const DetailIncome = () => {
             isClosed={() => {
               setShow(false);
             }}
-            delete={true}
-            data={incomeDelete}
-            customer={customerName}
             modalTitle={"Sei sicuro di voler cancellare questa entrata?"}
             modalText={
               "Una volta cancellata questa entrata non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"

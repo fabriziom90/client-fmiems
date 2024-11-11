@@ -59,8 +59,10 @@ const Exits = () => {
         <div className="col-12">
           {!loaded ? (
             <Loader loaded={loaded} />
-          ) : (
+          ) : exits.length > 0 ? (
             <Table data={exits} months={months} type={2} />
+          ) : (
+            "Nessuna uscita è stata inserita"
           )}
         </div>
       </div>

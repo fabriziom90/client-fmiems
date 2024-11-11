@@ -1,6 +1,6 @@
 import React from "react";
 
-const SummaryTable = ({ year }) => {
+const SummaryTable = ({ year, visible }) => {
   function showValues(values, month, type) {
     let htmlValues = [];
 
@@ -81,20 +81,31 @@ const SummaryTable = ({ year }) => {
                             </span>
                           </div>
                         </td>
-                        <td className="p-0">
-                          <div className="head-cell bg-warning">Tasse</div>
-                          <div className="p-3">
-                            {month.incomes.length > 0
-                              ? showValues(month.incomes, month.month, "taxes")
-                              : "0€"}
-                          </div>
-                          <div className="border-top border-dark py-2">
-                            <strong>Totale:</strong>{" "}
-                            <span className="text-warning">
-                              {sumValues(month.incomes, "taxes")}€
-                            </span>
-                          </div>
-                        </td>
+                        {visible == true ? (
+                          <>
+                            <td className="p-0">
+                              <div className="head-cell bg-warning">Tasse</div>
+                              <div className="p-3">
+                                {month.incomes.length > 0
+                                  ? showValues(
+                                      month.incomes,
+                                      month.month,
+                                      "taxes"
+                                    )
+                                  : "0€"}
+                              </div>
+                              <div className="border-top border-dark py-2">
+                                <strong>Totale:</strong>{" "}
+                                <span className="text-warning">
+                                  {sumValues(month.incomes, "taxes")}€
+                                </span>
+                              </div>
+                            </td>
+                          </>
+                        ) : (
+                          ""
+                        )}
+
                         <td className="p-0">
                           <div className="head-cell bg-danger">Uscite</div>
                           <div className="p-3">
@@ -122,15 +133,33 @@ const SummaryTable = ({ year }) => {
                               fullExits += exit.value;
                               rowExits += exit.value;
                             })}
-                            <span
-                              className={
-                                rowIncomes - rowExits - rowTaxes < 0
-                                  ? "text-danger"
-                                  : "text-success"
-                              }
-                            >
-                              {(rowIncomes - rowExits - rowTaxes).toFixed(2)}€
-                            </span>
+
+                            {visible ? (
+                              <>
+                                <span
+                                  className={
+                                    rowIncomes - rowExits - rowTaxes < 0
+                                      ? "text-danger"
+                                      : "text-success"
+                                  }
+                                >
+                                  {(rowIncomes - rowExits - rowTaxes).toFixed(
+                                    2
+                                  )}
+                                  €
+                                </span>
+                              </>
+                            ) : (
+                              <span
+                                className={
+                                  rowIncomes - rowExits < 0
+                                    ? "text-danger"
+                                    : "text-success"
+                                }
+                              >
+                                {(rowIncomes - rowExits).toFixed(2)}€
+                              </span>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -142,7 +171,13 @@ const SummaryTable = ({ year }) => {
                   <td>
                     <span className="text-success">{fullIncomes}€</span>
                   </td>
-                  <td className="text-warning">{fullTaxes}€</td>
+                  {visible ? (
+                    <>
+                      <td className="text-warning">{fullTaxes}€</td>
+                    </>
+                  ) : (
+                    ""
+                  )}
                   <td>
                     <span className="text-danger">{fullExits}€</span>
                   </td>
@@ -153,7 +188,10 @@ const SummaryTable = ({ year }) => {
                         : "head-cell bg-danger"
                     }
                   >
-                    {(fullIncomes - fullExits - fullTaxes).toFixed(2)}€
+                    {visible
+                      ? (fullIncomes - fullExits - fullTaxes).toFixed(2)
+                      : (fullIncomes - fullExits).toFixed(2)}
+                    €
                   </td>
                 </tr>
               </>
