@@ -7,6 +7,15 @@ const Chart = ({ months, type }) => {
   const monthsNames = reversedMonths.map((item) => {
     return item.month.substring(0, 3);
   });
+  const setColors = () => {
+    if (type === 1) {
+      return ["#198754"];
+    } else if (type === 2) {
+      return ["#DC3545"];
+    } else {
+      return ["#198754", "#DC3545"];
+    }
+  };
 
   const setValues = () => {
     let graphValues;
@@ -88,7 +97,7 @@ const Chart = ({ months, type }) => {
       xaxis: {
         categories: monthsNames,
       },
-      colors: ["#198754", "#DC3545"],
+      colors: setColors(),
       fill: {
         type: "gradient",
         gradient: {
