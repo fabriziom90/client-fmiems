@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 
 import { NavLink } from "react-router-dom";
 
@@ -74,7 +74,7 @@ const Table = ({ data, months, type, handleDeleteYear }) => {
                       </td>
                     );
                   } else {
-                    return <td> - </td>;
+                    return <td key={`month-value-${i}`}> - </td>;
                   }
                 })}
                 <td className={setBgColor(type, rowTotal)}>

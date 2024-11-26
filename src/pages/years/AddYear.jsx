@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
@@ -76,7 +76,7 @@ const AddYear = () => {
                   className="form-select form-select-sm"
                   required
                 >
-                  <option value="">Seleziona l'anno</option>
+                  <option value="">Seleziona l&apos;anno</option>
                   {getYears().map((year, index) => {
                     return (
                       <option key={`year-${index}`} value={year}>

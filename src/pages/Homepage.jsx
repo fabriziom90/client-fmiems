@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 import Table from "../components/Table";
-import Loader from "../components/Loader";
+
 import { ToastContainer, toast } from "react-toastify";
 
 import axios from "axios";
@@ -25,19 +26,18 @@ const months = [
 
 function Homepage() {
   const [values, setValues] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [user] = useOutletContext();
 
   useEffect(() => {
     getValues();
   }, []);
 
   const getValues = async () => {
-    axios.get("http://localhost:4000/summary/").then((resp) => {
-      setValues(resp.data.values);
-      setTimeout(() => {
-        setLoaded(true);
-      }, 1800);
-    });
+    axios
+      .get("http://localhost:4000/summary/", { params: { id: user.userId } })
+      .then((resp) => {
+        setValues(resp.data.values);
+      });
   };
 
   const deleteYear = (year) => {
@@ -103,18 +103,12 @@ function Homepage() {
             </div>
             <div className="col-12">
               <h2>Riepilogo</h2>
-              {!loaded ? (
-                <Loader loaded={loaded} />
-              ) : values.length > 0 ? (
-                <Table
-                  data={values}
-                  months={months}
-                  type={0}
-                  handleDeleteYear={deleteYear}
-                />
-              ) : (
-                "Nessun anno è stato inserito"
-              )}
+              <Table
+                data={values}
+                months={months}
+                type={0}
+                handleDeleteYear={deleteYear}
+              />
             </div>
           </div>
         </div>

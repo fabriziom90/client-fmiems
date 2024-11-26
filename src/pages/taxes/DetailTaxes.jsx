@@ -2,14 +2,14 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 import Loader from "../../components/Loader";
 
 const DetailTaxes = () => {
   const [year, setYear] = useState([]);
   const [loaded, setLoaded] = useState(false);
-
+  const [user] = useOutletContext();
   let location = useLocation();
 
   useEffect(() => {
@@ -41,10 +41,10 @@ const DetailTaxes = () => {
         <div className="pb-3">
           {elem === "incomes" ? <strong>{income.customer}: </strong> : ""}
           {elem === "incomes"
-            ? income.income
+            ? income.income.toFixed(2)
             : elem === "taxes"
-            ? income.taxes
-            : income.net}
+            ? income.taxes.toFixed(2)
+            : income.net.toFixed(2)}
           €
         </div>
       );
@@ -139,14 +139,20 @@ const DetailTaxes = () => {
                   })}
 
                   <tr>
-                    <td></td>
-                    <td>
-                      <strong>Totale: </strong>
-                      <span className="text-success">{rowIncomes}€</span>
+                    <td className="head-cell">
+                      <strong>Totali</strong>
                     </td>
                     <td>
                       <strong>Totale: </strong>
-                      <span className="text-danger">{rowTaxes}€</span>
+                      <span className="text-success">
+                        {rowIncomes.toFixed(2)}€
+                      </span>
+                    </td>
+                    <td>
+                      <strong>Totale: </strong>
+                      <span className="text-danger">
+                        {rowTaxes.toFixed(2)}€
+                      </span>
                     </td>
                     <td>
                       <span>

@@ -4,21 +4,21 @@ import { NavLink } from "react-router-dom";
 
 import Table from "../../components/Table";
 import Loader from "../../components/Loader";
+import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
 
 const Incomes = () => {
   const [incomes, setIncomes] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [user] = useOutletContext();
 
   useEffect(() => {
     const getIncomes = async () => {
-      axios.get("http://localhost:4000/incomes").then((resp) => {
-        setIncomes(resp.data.incomes);
-        setTimeout(() => {
-          setLoaded(true);
-        }, 1500);
-      });
+      axios
+        .get("http://localhost:4000/incomes", { params: { id: user.userId } })
+        .then((resp) => {
+          setIncomes(resp.data.incomes);
+        });
     };
 
     getIncomes();
@@ -57,13 +57,7 @@ const Incomes = () => {
           </NavLink>
         </div>
         <div className="col-12">
-          {!loaded ? (
-            <Loader loaded={loaded} />
-          ) : incomes.length > 0 ? (
-            <Table data={incomes} months={months} type={1} />
-          ) : (
-            "Nessuna entrata è stata inserita"
-          )}
+          <Table data={incomes} months={months} type={1} />
         </div>
       </div>
     </div>

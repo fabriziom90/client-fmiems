@@ -1,16 +1,33 @@
 import React from "react";
+import axios from "axios";
 import { FaUser } from "react-icons/fa";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ user }) => {
   let navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("token");
+    axios.get("http://localhost:4000/users/logout").then((resp) => {
+      const { result, message } = resp.data;
+      localStorage.removeItem("token");
 
-    navigate("/login");
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    });
   };
   return (
     <header>
@@ -37,6 +54,7 @@ const Header = ({ user }) => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </header>
   );
 };

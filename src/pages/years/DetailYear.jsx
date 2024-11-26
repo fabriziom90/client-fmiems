@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 import { NavLink } from "react-router-dom";
 
@@ -9,13 +9,16 @@ import { FaEyeSlash } from "react-icons/fa";
 
 import Loader from "../../components/Loader";
 import SummaryTable from "../../components/SummaryTable";
+import LineChart from "../../components/LineChart";
+import PieChart from "../../components/PieChart";
 
 import axios from "axios";
 
 const DetailYear = () => {
-  const [year, setYear] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [year, setYear] = useState([]);
   const [visible, setVisible] = useState(true);
+  const [user] = useOutletContext();
 
   let location = useLocation();
 
@@ -30,11 +33,10 @@ const DetailYear = () => {
   function getDetailYear() {
     axios
       .get("http://localhost:4000/years/summary", {
-        params: { data: location.state.year },
+        params: { data: location.state.year, id: user.userId },
       })
       .then((res) => {
         setYear(res.data.values);
-
         setTimeout(() => {
           setLoaded(true);
         }, 1500);
@@ -73,9 +75,17 @@ const DetailYear = () => {
             </button>
           </div>
           {!loaded ? (
-            <Loader loaded={loaded} />
+            <Loader />
           ) : (
-            <SummaryTable year={year} visible={visible} />
+            <>
+              <div className="col-6">
+                <LineChart months={year[0].months} type={3} />
+                <PieChart months={year[0].months} visible={visible} />
+              </div>
+              <div className="col-6">
+                <SummaryTable year={year} visible={visible} />
+              </div>
+            </>
           )}
         </div>
       </div>

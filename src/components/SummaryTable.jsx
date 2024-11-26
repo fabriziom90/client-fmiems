@@ -49,157 +49,154 @@ const SummaryTable = ({ year, visible }) => {
   let fullTaxes = 0;
 
   return (
-    <div className="col-12">
-      <table className="table table-striped" id="detail">
-        <tbody>
-          {year.map((item, i) => {
-            return (
-              <>
-                {item.months.map((month, index) => {
-                  let rowIncomes = 0;
-                  let rowExits = 0;
-                  let rowTaxes = 0;
-                  return (
-                    <>
-                      <tr key={index}>
-                        <td className="p-0">
-                          <div className="head-cell">Mese</div>
-                          <div className="p-3">{month.month}</div>
-                        </td>
-                        <td className="p-0">
-                          <div className="head-cell bg-success">Entrate</div>
+    <table className="table table-striped" id="detail">
+      <tbody>
+        {year.map((item, i) => {
+          return (
+            <>
+              {item.months.map((month, index) => {
+                let rowIncomes = 0;
+                let rowExits = 0;
+                let rowTaxes = 0;
+                return (
+                  <>
+                    <tr key={index}>
+                      <td className="p-0">
+                        <div className="head-cell">Mese</div>
+                        <div className="p-3">{month.month}</div>
+                      </td>
+                      <td className="p-0">
+                        <div className="head-cell bg-success">Entrate</div>
 
-                          <div className="p-3">
-                            {month.incomes.length > 0
-                              ? showValues(month.incomes, month.month, "income")
-                              : "0€"}
-                          </div>
-                          <div className="border-top border-dark py-2">
-                            <strong>Totale:</strong>{" "}
-                            <span className="text-success">
-                              {sumValues(month.incomes, "incomes")}€
-                            </span>
-                          </div>
-                        </td>
-                        {visible == true ? (
-                          <>
-                            <td className="p-0">
-                              <div className="head-cell bg-warning">Tasse</div>
-                              <div className="p-3">
-                                {month.incomes.length > 0
-                                  ? showValues(
-                                      month.incomes,
-                                      month.month,
-                                      "taxes"
-                                    )
-                                  : "0€"}
-                              </div>
-                              <div className="border-top border-dark py-2">
-                                <strong>Totale:</strong>{" "}
-                                <span className="text-warning">
-                                  {sumValues(month.incomes, "taxes")}€
-                                </span>
-                              </div>
-                            </td>
-                          </>
-                        ) : (
-                          ""
-                        )}
+                        <div className="p-3">
+                          {month.incomes.length > 0
+                            ? showValues(month.incomes, month.month, "income")
+                            : "0€"}
+                        </div>
+                        <div className="border-top border-dark py-2">
+                          <strong>Totale:</strong>{" "}
+                          <span className="text-success">
+                            {sumValues(month.incomes, "incomes")}€
+                          </span>
+                        </div>
+                      </td>
+                      {visible == true ? (
+                        <>
+                          <td className="p-0">
+                            <div className="head-cell bg-warning">Tasse</div>
+                            <div className="p-3">
+                              {month.incomes.length > 0
+                                ? showValues(
+                                    month.incomes,
+                                    month.month,
+                                    "taxes"
+                                  )
+                                : "0€"}
+                            </div>
+                            <div className="border-top border-dark py-2">
+                              <strong>Totale:</strong>{" "}
+                              <span className="text-warning">
+                                {sumValues(month.incomes, "taxes")}€
+                              </span>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        ""
+                      )}
 
-                        <td className="p-0">
-                          <div className="head-cell bg-danger">Uscite</div>
-                          <div className="p-3">
-                            {month.exits.length > 0
-                              ? showValues(month.exits, month.month, "exit")
-                              : "0€"}
-                          </div>
-                          <div className="border-top border-dark py-2">
-                            <strong>Totale:</strong>{" "}
-                            <span className="text-danger">
-                              {sumValues(month.exits, "exits")}€
-                            </span>
-                          </div>
-                        </td>
-                        <td className="p-0">
-                          <div className="head-cell bg-dark">Totale</div>
-                          <div className="p-3">
-                            {month.incomes.forEach((income) => {
-                              fullIncomes += income.value;
-                              rowIncomes += income.value;
-                              fullTaxes += income.value * 0.3;
-                              rowTaxes += income.value * 0.3;
-                            })}
-                            {month.exits.forEach((exit) => {
-                              fullExits += exit.value;
-                              rowExits += exit.value;
-                            })}
+                      <td className="p-0">
+                        <div className="head-cell bg-danger">Uscite</div>
+                        <div className="p-3">
+                          {month.exits.length > 0
+                            ? showValues(month.exits, month.month, "exit")
+                            : "0€"}
+                        </div>
+                        <div className="border-top border-dark py-2">
+                          <strong>Totale:</strong>{" "}
+                          <span className="text-danger">
+                            {sumValues(month.exits, "exits")}€
+                          </span>
+                        </div>
+                      </td>
+                      <td className="p-0">
+                        <div className="head-cell bg-dark">Totale</div>
+                        <div className="p-3">
+                          {month.incomes.forEach((income) => {
+                            fullIncomes += income.value;
+                            rowIncomes += income.value;
+                            fullTaxes += income.value * 0.3;
+                            rowTaxes += income.value * 0.3;
+                          })}
+                          {month.exits.forEach((exit) => {
+                            fullExits += exit.value;
+                            rowExits += exit.value;
+                          })}
 
-                            {visible ? (
-                              <>
-                                <span
-                                  className={
-                                    rowIncomes - rowExits - rowTaxes < 0
-                                      ? "text-danger"
-                                      : "text-success"
-                                  }
-                                >
-                                  {(rowIncomes - rowExits - rowTaxes).toFixed(
-                                    2
-                                  )}
-                                  €
-                                </span>
-                              </>
-                            ) : (
+                          {visible ? (
+                            <>
                               <span
                                 className={
-                                  rowIncomes - rowExits < 0
+                                  rowIncomes - rowExits - rowTaxes < 0
                                     ? "text-danger"
                                     : "text-success"
                                 }
                               >
-                                {(rowIncomes - rowExits).toFixed(2)}€
+                                {(rowIncomes - rowExits - rowTaxes).toFixed(2)}€
                               </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-                <tr>
-                  <td className="bg-primary text-white">Totali</td>
-                  <td>
-                    <span className="text-success">{fullIncomes}€</span>
-                  </td>
-                  {visible ? (
-                    <>
-                      <td className="text-warning">{fullTaxes}€</td>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                  <td>
-                    <span className="text-danger">{fullExits}€</span>
-                  </td>
-                  <td
-                    className={
-                      fullIncomes - fullExits > 0
-                        ? "head-cell bg-success"
-                        : "head-cell bg-danger"
-                    }
-                  >
-                    {visible
-                      ? (fullIncomes - fullExits - fullTaxes).toFixed(2)
-                      : (fullIncomes - fullExits).toFixed(2)}
-                    €
-                  </td>
-                </tr>
-              </>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+                            </>
+                          ) : (
+                            <span
+                              className={
+                                rowIncomes - rowExits < 0
+                                  ? "text-danger"
+                                  : "text-success"
+                              }
+                            >
+                              {(rowIncomes - rowExits).toFixed(2)}€
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+              <tr>
+                <td className="bg-primary text-white">Totali</td>
+                <td>
+                  <span className="text-success">
+                    {fullIncomes.toFixed(2)}€
+                  </span>
+                </td>
+                {visible ? (
+                  <>
+                    <td className="text-warning">{fullTaxes.toFixed(2)}€</td>
+                  </>
+                ) : (
+                  ""
+                )}
+                <td>
+                  <span className="text-danger">{fullExits.toFixed(2)}€</span>
+                </td>
+                <td
+                  className={
+                    fullIncomes - fullExits > 0
+                      ? "head-cell bg-success"
+                      : "head-cell bg-danger"
+                  }
+                >
+                  {visible
+                    ? (fullIncomes - fullExits - fullTaxes).toFixed(2)
+                    : (fullIncomes - fullExits).toFixed(2)}
+                  €
+                </td>
+              </tr>
+            </>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
 
