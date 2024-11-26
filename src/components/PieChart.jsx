@@ -3,7 +3,6 @@ import ReactApexChart from "react-apexcharts";
 import { useState, useEffect } from "react";
 
 const PieChart = ({ months, visible }) => {
-  const [series, setSeries] = useState([]);
   const reversedMonths = [...months].reverse();
 
   useEffect(() => {
