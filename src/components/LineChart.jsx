@@ -104,7 +104,7 @@ const Chart = ({ months, type }) => {
           shade: "light",
           type: "horizontal",
           shadeIntensity: 0.5,
-          gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+          gradientToColors: undefined,
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
@@ -113,9 +113,7 @@ const Chart = ({ months, type }) => {
         },
       },
       legend: {
-        // position: '',
         width: 400,
-        // position: 'top',
       },
     },
     series: setValues(),

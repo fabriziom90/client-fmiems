@@ -1,8 +1,36 @@
-# React + Vite
+A Reactjs frontend application designed to manage income and expenses for individuals and businesses. The application leverages a Node.js backend to interact with a MySQL database.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Key Features
 
-Currently, two official plugins are available:
+    User Authentication:
+        User registration
+        User login
+    Year Management:
+        Add new years
+        Delete existing years
+    Transaction Management:
+        Create, read, update, and delete income transactions
+        Create, read, update, and delete expense transactions
+    Detailed Analysis:
+        View detailed income and expense reports for a specific year
+        Analyze income, expense, and tax trends with graphical representations
+        Calculate and visualize annual tax liabilities
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Technical Implementation
+
+    Frontend: Reactjs
+    Backend: Node.js
+    Database: MySQL
+    Routing: React Router Dom
+    Styling: SASS
+    Notifications: Toast notifications
+
+Application Structure
+
+    Components: Reusable UI components
+    Pages: Specific views within the application
+    Layout: Overall structure and layout of the application
+
+Additional Notes
+
+The application provides a user-friendly interface with intuitive navigation and informative visualizations. It prioritizes data security and privacy, implementing robust authentication and authorization mechanisms.

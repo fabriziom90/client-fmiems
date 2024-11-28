@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
@@ -17,41 +17,70 @@ const AddYear = () => {
   const navigate = useNavigate();
 
   const [year, setYear] = useState("");
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  const getUserInfo = () => {
+    axios.get("http://localhost:4000/users/get-user-info").then((resp) => {
+      if (resp.data.result) {
+        setUser(resp.data.user);
+      } else {
+        toast.error(resp.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 3100);
+      }
+    });
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
+    const id = user.userId;
 
-    axios.post("http://localhost:4000/years/store", { year }).then((res) => {
-      const { result, message } = res.data;
+    axios
+      .post("http://localhost:4000/years/store", { year, id })
+      .then((res) => {
+        const { result, message } = res.data;
 
-      if (result === true) {
-        toast.success(message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        if (result === true) {
+          toast.success(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
 
-        setTimeout(function () {
-          navigate("/admin/");
-        }, 3100);
-      } else {
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
-    });
+          setTimeout(function () {
+            navigate("/admin/");
+          }, 3100);
+        } else {
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
   };
 
   return (
