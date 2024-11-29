@@ -23,7 +23,7 @@ const DetailTaxes = () => {
   function getDetailYear() {
     axios
       .get("http://localhost:4000/taxes/detail", {
-        params: { data: location.state.year },
+        params: { data: location.state.year, id: user.userId },
       })
       .then((res) => {
         setYear(res.data.net_amounts[0]);

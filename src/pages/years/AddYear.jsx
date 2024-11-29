@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -17,32 +18,7 @@ const AddYear = () => {
   const navigate = useNavigate();
 
   const [year, setYear] = useState("");
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    getUserInfo();
-  }, []);
-
-  const getUserInfo = () => {
-    axios.get("http://localhost:4000/users/get-user-info").then((resp) => {
-      if (resp.data.result) {
-        setUser(resp.data.user);
-      } else {
-        toast.error(resp.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        setTimeout(() => {
-          navigate("/login");
-        }, 3100);
-      }
-    });
-  };
+  const [user] = useOutletContext();
 
   const submitForm = (e) => {
     e.preventDefault();
