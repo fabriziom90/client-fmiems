@@ -61,24 +61,19 @@ const DetailYear = () => {
               </NavLink>
             </div>
           </div>
+
           <div className="col-12 mb-3">
-            {year[0].months > 0 ? (
-              <>
-                <button className="btn btn-main" onClick={showHideTaxes}>
-                  {visible ? (
-                    <>
-                      Tasse visibili <FaEye />
-                    </>
-                  ) : (
-                    <>
-                      Tasse nascoste <FaEyeSlash />
-                    </>
-                  )}
-                </button>
-              </>
-            ) : (
-              <> </>
-            )}
+            <button className="btn btn-main" onClick={showHideTaxes}>
+              {visible ? (
+                <>
+                  Tasse visibili <FaEye />
+                </>
+              ) : (
+                <>
+                  Tasse nascoste <FaEyeSlash />
+                </>
+              )}
+            </button>
           </div>
           {!loaded ? (
             <Loader />
@@ -88,7 +83,7 @@ const DetailYear = () => {
                 <>
                   <div className="col-6">
                     <LineChart months={year[0].months} type={3} />
-                    {/* <PieChart months={year[0].months} visible={visible} /> */}
+                    <PieChart months={year[0].months} visible={visible} />
                   </div>
                   <div className="col-6">
                     <SummaryTable year={year} visible={visible} />

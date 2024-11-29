@@ -74,7 +74,7 @@ const Table = ({ data, months, type, handleDeleteYear }) => {
                       </td>
                     );
                   } else {
-                    return <td key={`month-value-${i}`}> - </td>;
+                    return <td key={`month-empty-value-${i}`}> - </td>;
                   }
                 })}
                 <td className={setBgColor(type, rowTotal)}>
