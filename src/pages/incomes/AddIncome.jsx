@@ -56,9 +56,11 @@ function AddIncome() {
 
   useEffect(() => {
     const fetchYear = async () => {
-      axios.get("http://localhost:4000/years").then((resp) => {
-        setYears(resp.data.years);
-      });
+      axios
+        .get("http://localhost:4000/years", { params: { id: user.userId } })
+        .then((resp) => {
+          setYears(resp.data.years);
+        });
     };
 
     fetchYear();

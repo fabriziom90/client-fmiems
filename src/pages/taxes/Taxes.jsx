@@ -16,7 +16,7 @@ const Taxes = () => {
   useEffect(() => {
     const getIncomes = async () => {
       axios
-        .get("http://localhost:4000/incomes/net_amount", {
+        .get("http://localhost:4000/incomes/incomes_taxes", {
           params: { id: user.userId },
         })
         .then((resp) => {
@@ -54,7 +54,6 @@ const Taxes = () => {
           <div className="col-12">
             <Table data={incomes} months={months} type={3} />
           </div>
-          <div></div>
         </div>
       </div>
     </div>

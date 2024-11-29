@@ -57,9 +57,11 @@ function AddExit() {
 
   useEffect(() => {
     const fetchYear = async () => {
-      axios.get("http://localhost:4000/years").then((res) => {
-        setYears(res.data.years);
-      });
+      axios
+        .get("http://localhost:4000/years", { params: { id: user.userId } })
+        .then((res) => {
+          setYears(res.data.years);
+        });
     };
 
     fetchYear();

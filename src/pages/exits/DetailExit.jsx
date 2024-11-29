@@ -168,128 +168,142 @@ const DetailExit = () => {
           <Loader />
         ) : (
           <>
-            <div className="col-6">
-              <LineChart months={exits[0].months} type={2} />
-            </div>
-            <div className="col-6">
-              <table className="table table-striped" id="detail">
-                <tbody>
-                  {exits.map((item) => {
-                    return (
-                      <>
-                        {item.months.map((month, index) => {
-                          let total = 0;
-                          return (
-                            <>
-                              <tr key={index}>
-                                <td className="p-0">
-                                  <div className="head-cell">Mese</div>
-                                  <div className="p-2">{month.month}</div>
-                                </td>
-                                <td className="p-0">
-                                  <div className="head-cell height-30px"></div>
-                                  {month.exits.map((exit) => {
-                                    total += exit.value;
-                                    fullTotal += exit.value;
-                                    return (
-                                      <>
-                                        <div className="p-2">
-                                          <div className="d-flex justify-content-between align-items-center">
-                                            <div>
-                                              {thisExit != null &&
-                                              thisExit.exit_id ===
-                                                exit.exit_id ? (
-                                                <>
-                                                  <div className="d-flex">
-                                                    <input
-                                                      type="text"
-                                                      className="form-control form-control-sm me-1"
-                                                      defaultValue={exit.value}
-                                                      onChange={changeValue}
-                                                      placeholder="Importo"
-                                                    />
-                                                    <input
-                                                      type="text"
-                                                      className="form-control form-control-sm"
-                                                      defaultValue={
+            {exits[0].months > 0 ? (
+              <>
+                <div className="col-6">
+                  <LineChart months={exits[0].months} type={2} />
+                </div>
+                <div className="col-6">
+                  <table className="table table-striped" id="detail">
+                    <tbody>
+                      {exits.map((item) => {
+                        return (
+                          <>
+                            {item.months.map((month, index) => {
+                              let total = 0;
+                              return (
+                                <>
+                                  <tr key={index}>
+                                    <td className="p-0">
+                                      <div className="head-cell">Mese</div>
+                                      <div className="p-2">{month.month}</div>
+                                    </td>
+                                    <td className="p-0">
+                                      <div className="head-cell height-30px"></div>
+                                      {month.exits.map((exit) => {
+                                        total += exit.value;
+                                        fullTotal += exit.value;
+                                        return (
+                                          <>
+                                            <div className="p-2">
+                                              <div className="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                  {thisExit != null &&
+                                                  thisExit.exit_id ===
+                                                    exit.exit_id ? (
+                                                    <>
+                                                      <div className="d-flex">
+                                                        <input
+                                                          type="text"
+                                                          className="form-control form-control-sm me-1"
+                                                          defaultValue={
+                                                            exit.value
+                                                          }
+                                                          onChange={changeValue}
+                                                          placeholder="Importo"
+                                                        />
+                                                        <input
+                                                          type="text"
+                                                          className="form-control form-control-sm"
+                                                          defaultValue={
+                                                            exit.customer
+                                                          }
+                                                          onChange={
+                                                            changeCustomer
+                                                          }
+                                                          placeholder="Cliente"
+                                                        />
+                                                      </div>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <strong>
+                                                        {exit.customer}
+                                                      </strong>{" "}
+                                                      - {exit.value}€
+                                                    </>
+                                                  )}
+                                                </div>
+                                                <div>
+                                                  <button
+                                                    className="btn btn-sm btn-warning me-1"
+                                                    onClick={() => {
+                                                      setObject(exit);
+                                                    }}
+                                                  >
+                                                    <FiEdit />
+                                                  </button>
+                                                  <button
+                                                    className="btn btn-sm btn-square btn-danger me-2"
+                                                    onClick={() => {
+                                                      setShow(true);
+                                                      setExitDelete(exit);
+                                                      setCustomerName(
                                                         exit.customer
-                                                      }
-                                                      onChange={changeCustomer}
-                                                      placeholder="Cliente"
-                                                    />
-                                                  </div>
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <strong>
-                                                    {exit.customer}
-                                                  </strong>{" "}
-                                                  - {exit.value}€
-                                                </>
-                                              )}
+                                                      );
+                                                    }}
+                                                  >
+                                                    <FaRegTrashAlt />
+                                                  </button>
+                                                </div>
+                                              </div>
                                             </div>
-                                            <div>
-                                              <button
-                                                className="btn btn-sm btn-warning me-1"
-                                                onClick={() => {
-                                                  setObject(exit);
-                                                }}
-                                              >
-                                                <FiEdit />
-                                              </button>
-                                              <button
-                                                className="btn btn-sm btn-square btn-danger me-2"
-                                                onClick={() => {
-                                                  setShow(true);
-                                                  setExitDelete(exit);
-                                                  setCustomerName(
-                                                    exit.customer
-                                                  );
-                                                }}
-                                              >
-                                                <FaRegTrashAlt />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </>
-                                    );
-                                  })}
-                                  <div className="head-cell mt-2 border-bottom border-dark">
-                                    {total.toFixed(2)}€
-                                  </div>
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
-                        <tr>
-                          <td className="p-0 head-cell">Totale</td>
-                          <td
-                            className={`p-0 full-total text-white ${
-                              fullTotal > 0 ? "bg-danger" : "bg-success"
-                            }`}
-                          >
-                            <div>{fullTotal.toFixed(2)}€</div>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-              <ConfirmationModal
-                isOpen={show}
-                isClosed={() => {
-                  setShow(false);
-                }}
-                modalTitle={"Sei sicuro di voler cancellare questa uscita?"}
-                modalText={
-                  "Una volta cancellata questa uscita non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
-                }
-                confirmDelete={deleteExit}
-              />
-            </div>
+                                          </>
+                                        );
+                                      })}
+                                      <div className="head-cell mt-2 border-bottom border-dark">
+                                        {total.toFixed(2)}€
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                            <tr>
+                              <td className="p-0 head-cell">Totale</td>
+                              <td
+                                className={`p-0 full-total text-white ${
+                                  fullTotal > 0 ? "bg-danger" : "bg-success"
+                                }`}
+                              >
+                                <div>{fullTotal.toFixed(2)}€</div>
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  <ConfirmationModal
+                    isOpen={show}
+                    isClosed={() => {
+                      setShow(false);
+                    }}
+                    modalTitle={"Sei sicuro di voler cancellare questa uscita?"}
+                    modalText={
+                      "Una volta cancellata questa uscita non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
+                    }
+                    confirmDelete={deleteExit}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="text-center">
+                  Non sono presenti uscite per quest'anno
+                </h2>
+              </>
+            )}
           </>
         )}
 
