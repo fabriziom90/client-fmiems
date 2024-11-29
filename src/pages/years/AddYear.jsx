@@ -1,5 +1,8 @@
-import { React, useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
+import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,38 +15,48 @@ function getYears() {
 }
 
 const AddYear = () => {
+  const navigate = useNavigate();
+
   const [year, setYear] = useState("");
+  const [user] = useOutletContext();
 
   const submitForm = (e) => {
     e.preventDefault();
+    const id = user.userId;
 
-    axios.post("http://localhost:4000/years/store", { year }).then((res) => {
-      const { result, message } = res.data;
+    axios
+      .post("http://localhost:4000/years/store", { year, id })
+      .then((res) => {
+        const { result, message } = res.data;
 
-      if (result === true) {
-        toast.success(message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      } else {
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      }
-    });
+        if (result === true) {
+          toast.success(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
+          setTimeout(function () {
+            navigate("/admin/");
+          }, 3100);
+        } else {
+          toast.error(message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      });
   };
 
   return (
@@ -68,7 +81,7 @@ const AddYear = () => {
                   className="form-select form-select-sm"
                   required
                 >
-                  <option value="">Seleziona l'anno</option>
+                  <option value="">Seleziona l&apos;anno</option>
                   {getYears().map((year, index) => {
                     return (
                       <option key={`year-${index}`} value={year}>

@@ -1,21 +1,24 @@
-import { React, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useOutletContext } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
+import LineChart from "../../components/LineChart";
+import Loader from "../../components/Loader";
 
 import axios from "axios";
 
 const DetailIncome = () => {
+  let [loaded, setLoaded] = useState(false);
   let [thisIncome, setThisIncome] = useState(null);
   const [incomes, setIncomes] = useState([]);
   const [incomeDelete, setIncomeDelete] = useState({});
   const [show, setShow] = useState(false);
-  const [customerName, setCustomerName] = useState("");
   let [incomeValue, setIncomeValue] = useState("");
   let [incomeCustomer, setIncomeCustomer] = useState("");
+  const [user] = useOutletContext();
 
   let location = useLocation();
 
@@ -24,10 +27,14 @@ const DetailIncome = () => {
       .get("http://localhost:4000/incomes/get_distinct_incomes", {
         params: {
           year: location.state.year,
+          id: user.userId,
         },
       })
       .then((resp) => {
         setIncomes(resp.data.incomes);
+        setTimeout(() => {
+          setLoaded(true);
+        }, 1500);
       });
   }
 
@@ -148,132 +155,163 @@ const DetailIncome = () => {
           <div className="d-flex justify-content-between align-items-center my-3">
             <h2>Dettaglio entrate anno</h2>
             <div>
-              <NavLink to="/incomes" className="btn btn-sm btn-main border-0">
+              <NavLink
+                to="/admin/incomes"
+                className="btn btn-sm btn-main border-0"
+              >
                 Entrate
               </NavLink>
               <NavLink
-                to="/exits/add-income"
-                className="rounded-0 btn btn-sm btn-danger ms-2"
+                to="/admin/incomes/add-income"
+                className="rounded-0 btn btn-sm btn-success ms-2"
               >
                 Aggiungi entrata
               </NavLink>
             </div>
           </div>
         </div>
-        <div className="col-12">
-          <table className="table table-striped" id="detail">
-            <tbody>
-              {incomes.map((item) => {
-                return (
-                  <>
-                    {item.months.map((month, index) => {
-                      let total = 0;
-                      return (
-                        <>
-                          <tr key={index}>
-                            <td className="p-0">
-                              <div className="head-cell">Mese</div>
-                              <div className="p-2">{month.month}</div>
-                            </td>
-                            <td className="p-0">
-                              {month.incomes.map((income) => {
-                                total += income.value;
-                                fullTotal += income.value;
-                                return (
-                                  <>
-                                    <div className="p-2">
-                                      <div className="d-flex justify-content-between align-items-center">
-                                        <div>
-                                          {thisIncome != null &&
-                                          thisIncome.income_id ===
-                                            income.income_id ? (
-                                            <>
-                                              <div className="d-flex">
-                                                <input
-                                                  type="text"
-                                                  className="form-control form-control-sm me-1"
-                                                  defaultValue={income.value}
-                                                  onChange={changeValue}
-                                                  placeholder="Importo"
-                                                />
-                                                <input
-                                                  type="text"
-                                                  className="form-control form-control-sm"
-                                                  defaultValue={income.customer}
-                                                  onChange={changeCustomer}
-                                                  placeholder="Cliente"
-                                                />
+        {!loaded ? (
+          <Loader />
+        ) : (
+          <>
+            {incomes[0].months.length > 0 ? (
+              <>
+                <div className="col-6">
+                  <LineChart months={incomes[0].months} type={1} />
+                </div>
+                <div className="col-6">
+                  <table className="table table-striped" id="detail">
+                    <tbody>
+                      {incomes.map((item) => {
+                        return (
+                          <>
+                            {item.months.map((month, index) => {
+                              let total = 0;
+                              return (
+                                <>
+                                  <tr key={index}>
+                                    <td className="p-0">
+                                      <div className="head-cell">Mese</div>
+                                      <div className="p-2">{month.month}</div>
+                                    </td>
+                                    <td className="p-0">
+                                      <div className="head-cell height-30px"></div>
+                                      {month.incomes.map((income) => {
+                                        total += income.value;
+                                        fullTotal += income.value;
+                                        return (
+                                          <>
+                                            <div className="p-2">
+                                              <div className="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                  {thisIncome != null &&
+                                                  thisIncome.income_id ===
+                                                    income.income_id ? (
+                                                    <>
+                                                      <div className="d-flex">
+                                                        <input
+                                                          type="text"
+                                                          className="form-control form-control-sm me-1"
+                                                          defaultValue={
+                                                            income.value
+                                                          }
+                                                          onChange={changeValue}
+                                                          placeholder="Importo"
+                                                        />
+                                                        <input
+                                                          type="text"
+                                                          className="form-control form-control-sm"
+                                                          defaultValue={
+                                                            income.customer
+                                                          }
+                                                          onChange={
+                                                            changeCustomer
+                                                          }
+                                                          placeholder="Cliente"
+                                                        />
+                                                      </div>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <strong>
+                                                        {income.customer}
+                                                      </strong>{" "}
+                                                      - {income.value}€
+                                                    </>
+                                                  )}
+                                                </div>
+                                                <div>
+                                                  <button
+                                                    className="btn btn-sm btn-warning me-1"
+                                                    onClick={() => {
+                                                      setObject(income);
+                                                    }}
+                                                  >
+                                                    <FiEdit />
+                                                  </button>
+                                                  <button
+                                                    className="btn btn-sm btn-square btn-danger me-2"
+                                                    onClick={() => {
+                                                      setShow(true);
+                                                      setIncomeDelete(income);
+                                                    }}
+                                                  >
+                                                    <FaRegTrashAlt />
+                                                  </button>
+                                                </div>
                                               </div>
-                                            </>
-                                          ) : (
-                                            <>
-                                              <strong>{income.customer}</strong>{" "}
-                                              - {income.value}€
-                                            </>
-                                          )}
-                                        </div>
-                                        <div>
-                                          <button
-                                            className="btn btn-sm btn-warning me-1"
-                                            onClick={() => {
-                                              setObject(income);
-                                            }}
-                                          >
-                                            <FiEdit />
-                                          </button>
-                                          <button
-                                            className="btn btn-sm btn-square btn-danger me-2"
-                                            onClick={() => {
-                                              setShow(true);
-                                              setIncomeDelete(income);
-                                              setCustomerName(income.customer);
-                                            }}
-                                          >
-                                            <FaRegTrashAlt />
-                                          </button>
-                                        </div>
+                                            </div>
+                                          </>
+                                        );
+                                      })}
+                                      <div className="head-cell mt-2 border-bottom border-dark">
+                                        {total.toFixed(2)}€
                                       </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                              <div className="head-cell mt-2">{total}€</div>
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })}
-                    <tr>
-                      <td className="p-0 head-cell">Totale</td>
-                      <td
-                        className={`p-0 full-total text-white ${
-                          fullTotal < 0 ? "bg-danger" : "bg-success"
-                        }`}
-                      >
-                        <div>{fullTotal}€</div>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-            </tbody>
-          </table>
-          <ConfirmationModal
-            isOpen={show}
-            isClosed={() => {
-              setShow(false);
-            }}
-            delete={true}
-            data={incomeDelete}
-            customer={customerName}
-            modalTitle={"Sei sicuro di voler cancellare questa entrata?"}
-            modalText={
-              "Una volta cancellata questa entrata non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
-            }
-            confirmDelete={deleteIncome}
-          />
-        </div>
-        <ToastContainer />
+                                    </td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                            <tr>
+                              <td className="p-0 head-cell">Totale</td>
+                              <td
+                                className={`p-0 full-total text-white ${
+                                  fullTotal < 0 ? "bg-danger" : "bg-success"
+                                }`}
+                              >
+                                <div>{fullTotal.toFixed(2)}€</div>
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  <ConfirmationModal
+                    isOpen={show}
+                    isClosed={() => {
+                      setShow(false);
+                    }}
+                    modalTitle={
+                      "Sei sicuro di voler cancellare questa entrata?"
+                    }
+                    modalText={
+                      "Una volta cancellata questa entrata non potrà essere più recuperata e dovrai reinserirla. Vuoi procedere?"
+                    }
+                    confirmDelete={deleteIncome}
+                  />
+                </div>
+                <ToastContainer />
+              </>
+            ) : (
+              <>
+                <h2 className="text-center">
+                  Non sono presenti entrate per quest'anno
+                </h2>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

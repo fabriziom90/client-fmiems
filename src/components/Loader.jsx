@@ -1,5 +1,3 @@
-import React from "react";
-
 const Loader = ({ loaded }) => {
   const loader = (
     <div className="loader-container w-100">

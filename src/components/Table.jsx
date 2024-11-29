@@ -1,17 +1,15 @@
-import { React, useState } from "react";
+import { useState } from "react";
 
 import { NavLink } from "react-router-dom";
 
 import { FaEye } from "react-icons/fa";
 
-import DataTable from "react-data-table-component";
 import { FaRegTrashAlt } from "react-icons/fa";
 import ConfirmationModal from "./ConfirmationModal";
 
-const Table = ({ data, months, type }) => {
+const Table = ({ data, months, type, handleDeleteYear }) => {
   const [show, setShow] = useState(false);
   const [yearDelete, setYearDelete] = useState({});
-  const [customerName, setCustomerName] = useState("");
 
   function setClassResults(type, value) {
     if (type === 0) {
@@ -22,6 +20,22 @@ const Table = ({ data, months, type }) => {
       }
     } else {
       return "";
+    }
+  }
+
+  function setBgColor(type, value) {
+    if (type === 0) {
+      if (value > 0) {
+        return `head-cell bg-success`;
+      } else {
+        return `head-cell bg-danger`;
+      }
+    } else if (type === 1) {
+      return `head-cell bg-success`;
+    } else if (type === 2) {
+      return `head-cell bg-danger`;
+    } else {
+      return `head-cell bg-warning`;
     }
   }
 
@@ -38,33 +52,39 @@ const Table = ({ data, months, type }) => {
                 </>
               );
             })}
+            <th className="head-cell">Totale</th>
             <th>Tools</th>
           </tr>
         </thead>
         <tbody>
           {data.map((year, index) => {
+            let rowTotal = 0;
             return (
               <tr key={`year-${year.year_id}`}>
                 <td>{year.year}</td>
                 {year.months.map((month, i) => {
                   if (month != null) {
+                    rowTotal += month;
                     return (
                       <td
                         key={`month-value-${i}`}
                         className={setClassResults(type, month)}
                       >
-                        {month}€
+                        {month.toFixed(2)}€
                       </td>
                     );
                   } else {
-                    return <td> - </td>;
+                    return <td key={`month-empty-value-${i}`}> - </td>;
                   }
                 })}
+                <td className={setBgColor(type, rowTotal)}>
+                  {rowTotal.toFixed(2)}€
+                </td>
                 <td>
                   {type === 0 ? (
                     <>
                       <NavLink
-                        to={`/years/${year.year_id}/detail-year`}
+                        to={`/admin/years/${year.year_id}/detail-year`}
                         className="btn btn-sm btn-main"
                         state={{ year: year.year }}
                       >
@@ -74,7 +94,7 @@ const Table = ({ data, months, type }) => {
                         className="btn btn-sm btn-square btn-danger ms-2"
                         onClick={() => {
                           setShow(true);
-                          setYearDelete(year.year);
+                          setYearDelete(year.year_id);
                         }}
                       >
                         <FaRegTrashAlt />
@@ -82,7 +102,7 @@ const Table = ({ data, months, type }) => {
                     </>
                   ) : type === 1 ? (
                     <NavLink
-                      to={`/incomes/${year.year_id}/detail-income`}
+                      to={`/admin/incomes/${year.year_id}/detail-income`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >
@@ -90,7 +110,7 @@ const Table = ({ data, months, type }) => {
                     </NavLink>
                   ) : type === 2 ? (
                     <NavLink
-                      to={`/exits/${year.year_id}/detail-exit`}
+                      to={`/admin/exits/${year.year_id}/detail-exit`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >
@@ -98,7 +118,7 @@ const Table = ({ data, months, type }) => {
                     </NavLink>
                   ) : (
                     <NavLink
-                      to={`/taxes/${year.year_id}/detail-tax`}
+                      to={`/admin/taxes/${year.year_id}/detail-tax`}
                       className="btn btn-sm btn-main"
                       state={{ year: year.year }}
                     >
@@ -116,9 +136,14 @@ const Table = ({ data, months, type }) => {
         isClosed={() => {
           setShow(false);
         }}
-        data={yearDelete}
-        customer={customerName}
         modalTitle={"Sei sicuro di voler cancellare questo anno?"}
+        modalText={
+          "Una volta cancellata questo anno, verranno eliminate anche le relative entrate ed uscite e non sarà più possibile recuperarle. Vuoi procedere?"
+        }
+        confirmDelete={() => {
+          handleDeleteYear(yearDelete);
+          setShow(false);
+        }}
       />
     </>
   );

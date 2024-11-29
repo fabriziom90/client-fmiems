@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div id="sidebar">
       <div className="top-sidebar px-2">
         <NavLink
-          to="/"
+          to="./"
           className="d-flex align-items-center text-decoration-none text-white"
         >
           <img src={logo} alt="FM-IEMS" />
@@ -26,38 +26,44 @@ const Sidebar = () => {
         <ul className="list-unstyled">
           <li
             className={
-              location.pathname.includes("/incomes") ? `link active` : "link"
+              location.pathname.includes("/admin/incomes")
+                ? `link active`
+                : "link"
             }
           >
             <div className="d-flex">
               <div className="p-icon">
                 <BsGraphUpArrow />
               </div>
-              <NavLink to="/incomes">Entrate</NavLink>
+              <NavLink to="/admin/incomes">Entrate</NavLink>
             </div>
           </li>
           <li
             className={
-              location.pathname.includes("/exits") ? `link active` : "link"
+              location.pathname.includes("/admin/exits")
+                ? `link active`
+                : "link"
             }
           >
             <div className="d-flex">
               <div className="p-icon">
                 <BsGraphDownArrow />
               </div>
-              <NavLink to="/exits">Uscite</NavLink>
+              <NavLink to="/admin/exits">Uscite</NavLink>
             </div>
           </li>
           <li
             className={
-              location.pathname.includes("/taxes") ? `link active` : "link"
+              location.pathname.includes("/admin/taxes")
+                ? `link active`
+                : "link"
             }
           >
             <div className="d-flex">
               <div className="p-icon">
                 <VscGraphLine />
               </div>
-              <NavLink to="/taxes">Tasse</NavLink>
+              <NavLink to="/admin/taxes">Tasse</NavLink>
             </div>
           </li>
         </ul>

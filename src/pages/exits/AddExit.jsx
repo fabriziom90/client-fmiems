@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
 
@@ -13,9 +14,10 @@ function AddExit() {
   const [values, setValues] = useState("");
   const [years, setYears] = useState([]);
   const [months, setMonths] = useState([]);
+  const [user] = useOutletContext();
 
   const handleChange = (e) => {
-    const updatedForm = { ...values, [e.target.name]: e.target.value };
+    const updatedForm = { ...values, [e.target.name]: e.target.value, user };
     setValues(updatedForm);
   };
 
@@ -36,7 +38,7 @@ function AddExit() {
         });
 
         setTimeout(function () {
-          navigate("/exits/");
+          navigate("/admin/exits/");
         }, 3400);
       } else {
         toast.error(message, {
@@ -55,9 +57,11 @@ function AddExit() {
 
   useEffect(() => {
     const fetchYear = async () => {
-      axios.get("http://localhost:4000/years").then((resp) => {
-        setYears(resp.data.years);
-      });
+      axios
+        .get("http://localhost:4000/years", { params: { id: user.userId } })
+        .then((res) => {
+          setYears(res.data.years);
+        });
     };
 
     fetchYear();

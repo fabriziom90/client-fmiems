@@ -2,17 +2,14 @@ import React from "react";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-
-import { NavLink } from "react-router-dom";
+import { useLocation, useOutletContext } from "react-router-dom";
 
 import Loader from "../../components/Loader";
-import SummaryTable from "../../components/SummaryTable";
 
 const DetailTaxes = () => {
   const [year, setYear] = useState([]);
   const [loaded, setLoaded] = useState(false);
-
+  const [user] = useOutletContext();
   let location = useLocation();
 
   useEffect(() => {
@@ -26,7 +23,7 @@ const DetailTaxes = () => {
   function getDetailYear() {
     axios
       .get("http://localhost:4000/taxes/detail", {
-        params: { data: location.state.year },
+        params: { data: location.state.year, id: user.userId },
       })
       .then((res) => {
         setYear(res.data.net_amounts[0]);
@@ -44,10 +41,10 @@ const DetailTaxes = () => {
         <div className="pb-3">
           {elem === "incomes" ? <strong>{income.customer}: </strong> : ""}
           {elem === "incomes"
-            ? income.income
+            ? income.income.toFixed(2)
             : elem === "taxes"
-            ? income.taxes
-            : income.net}
+            ? income.taxes.toFixed(2)
+            : income.net.toFixed(2)}
           €
         </div>
       );
@@ -84,81 +81,99 @@ const DetailTaxes = () => {
             <Loader loaded={loaded} />
           ) : (
             <>
-              <table className="table table-striped">
-                <tbody>
-                  {year.months.map((month, index) => {
-                    month.incomes.forEach((income) => {
-                      rowIncomes += income.income;
-                      rowTaxes += income.taxes;
-                      rowNets += income.net;
-                    });
+              {year.months.length > 0 ? (
+                <>
+                  <table className="table table-striped">
+                    <tbody>
+                      {year.months.map((month, index) => {
+                        month.incomes.forEach((income) => {
+                          rowIncomes += income.income;
+                          rowTaxes += income.taxes;
+                          rowNets += income.net;
+                        });
 
-                    return (
-                      <>
-                        <tr key={`month-${index}`}>
-                          <td className="p-0">
-                            <div className="head-cell">Mese</div>
-                            <div className="p-3">{month.month}</div>
-                          </td>
-                          <td className="p-0">
-                            <div className="head-cell bg-success">Entrate</div>
-                            <div className="p-3">
-                              <div className="pb-3">
-                                {showValues(month.incomes, "incomes")}
-                              </div>
-                              <div className="border-top py-3 border-dark">
-                                <strong>Totale: </strong>
-                                {sumValues(month.incomes, "incomes")}€
-                              </div>
-                            </div>
-                          </td>
-                          <td className="p-0">
-                            <div className="head-cell bg-danger">Tasse</div>
-                            <div className="p-3">
-                              <div className="pb-3">
-                                {showValues(month.incomes, "taxes")}
-                              </div>
-                              <div className="border-top py-3 border-dark">
-                                <strong>Totale: </strong>
-                                {sumValues(month.incomes, "taxes")}€
-                              </div>
-                            </div>
-                          </td>
-                          <td className="p-0">
-                            <div className="head-cell bg-dark">Netto</div>
-                            <div className="p-3">
-                              <div className="pb-3">
-                                {showValues(month.incomes, "nets")}
-                              </div>
-                              <div className="border-top py-3 border-dark">
-                                <strong>Totale: </strong>
-                                {sumValues(month.incomes, "nets")}€
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
+                        return (
+                          <>
+                            <tr key={`month-${index}`}>
+                              <td className="p-0">
+                                <div className="head-cell">Mese</div>
+                                <div className="p-3">{month.month}</div>
+                              </td>
+                              <td className="p-0">
+                                <div className="head-cell bg-success">
+                                  Entrate
+                                </div>
+                                <div className="p-3">
+                                  <div className="pb-3">
+                                    {showValues(month.incomes, "incomes")}
+                                  </div>
+                                  <div className="border-top py-3 border-dark">
+                                    <strong>Totale: </strong>
+                                    {sumValues(month.incomes, "incomes")}€
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="p-0">
+                                <div className="head-cell bg-danger">Tasse</div>
+                                <div className="p-3">
+                                  <div className="pb-3">
+                                    {showValues(month.incomes, "taxes")}
+                                  </div>
+                                  <div className="border-top py-3 border-dark">
+                                    <strong>Totale: </strong>
+                                    {sumValues(month.incomes, "taxes")}€
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="p-0">
+                                <div className="head-cell bg-dark">Netto</div>
+                                <div className="p-3">
+                                  <div className="pb-3">
+                                    {showValues(month.incomes, "nets")}
+                                  </div>
+                                  <div className="border-top py-3 border-dark">
+                                    <strong>Totale: </strong>
+                                    {sumValues(month.incomes, "nets")}€
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
 
-                  <tr>
-                    <td></td>
-                    <td>
-                      <strong>Totale: </strong>
-                      <span className="text-success">{rowIncomes}€</span>
-                    </td>
-                    <td>
-                      <strong>Totale: </strong>
-                      <span className="text-danger">{rowTaxes}€</span>
-                    </td>
-                    <td>
-                      <span>
-                        <strong>Totale:</strong> {rowNets}€
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <tr>
+                        <td className="head-cell">
+                          <strong>Totali</strong>
+                        </td>
+                        <td>
+                          <strong>Totale: </strong>
+                          <span className="text-success">
+                            {rowIncomes.toFixed(2)}€
+                          </span>
+                        </td>
+                        <td>
+                          <strong>Totale: </strong>
+                          <span className="text-danger">
+                            {rowTaxes.toFixed(2)}€
+                          </span>
+                        </td>
+                        <td>
+                          <span>
+                            <strong>Totale:</strong> {rowNets}€
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-center">
+                    Non sono presenti entrate per quest'anno
+                  </h2>
+                </>
+              )}
             </>
           )}
         </div>
