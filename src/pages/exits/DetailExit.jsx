@@ -152,7 +152,10 @@ const DetailExit = () => {
           <div className="d-flex justify-content-between align-items-center my-3">
             <h2>Dettaglio uscite anno</h2>
             <div>
-              <NavLink to="/exits" className="btn btn-sm btn-main border-0">
+              <NavLink
+                to="/admin/exits"
+                className="btn btn-sm btn-main border-0"
+              >
                 Uscite
               </NavLink>
               <NavLink
@@ -168,7 +171,7 @@ const DetailExit = () => {
           <Loader />
         ) : (
           <>
-            {exits[0].months > 0 ? (
+            {exits[0].months.length > 0 ? (
               <>
                 <div className="col-6">
                   <LineChart months={exits[0].months} type={2} />

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import Table from "../../components/Table";
-import Loader from "../../components/Loader";
 import { useOutletContext } from "react-router-dom";
 
 import axios from "axios";
